@@ -17,7 +17,7 @@ public class HashPassword : Prompt
 
     public override Prompt HandlePrompt()
     {
-        ContinuePrompt.Display();
+        ContinuePrompt();
 
         return new MainMenu();
     }

@@ -17,7 +17,7 @@ public class GeneratePassword : Prompt
 
     public override Prompt HandlePrompt()
     {
-        ContinuePrompt.Display();
+        ContinuePrompt();
 
         return new MainMenu();
     }
