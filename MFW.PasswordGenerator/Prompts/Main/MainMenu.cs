@@ -7,6 +7,7 @@ namespace MFW.PasswordGenerator.Prompts.Main;
 /// </summary>
 public class MainMenu : Prompt
 {
+    /// <inheritdoc/>
     public override void DisplayPrompt()
     {
         Console.WriteLine($"=== {Constants.AppTitle} v{Program.GetApplicationVersion()} ===");
@@ -18,6 +19,7 @@ public class MainMenu : Prompt
         Console.WriteLine("3. Exit");
     }
 
+    /// <inheritdoc/>
     public override Prompt? HandlePrompt()
     {
         while (true)

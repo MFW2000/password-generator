@@ -9,12 +9,14 @@ public class HashPassword : Prompt
 {
     // TODO: Implement feature.
 
+    /// <inheritdoc/>
     public override void DisplayPrompt()
     {
         Console.WriteLine("This is the password hash feature.");
         Console.WriteLine();
     }
 
+    /// <inheritdoc/>
     public override Prompt HandlePrompt()
     {
         ContinuePrompt();

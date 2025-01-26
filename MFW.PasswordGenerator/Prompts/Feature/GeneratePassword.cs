@@ -9,12 +9,14 @@ public class GeneratePassword : Prompt
 {
     // TODO: Implement feature.
 
+    /// <inheritdoc/>
     public override void DisplayPrompt()
     {
         Console.WriteLine("This is the password generator feature.");
         Console.WriteLine();
     }
 
+    /// <inheritdoc/>
     public override Prompt HandlePrompt()
     {
         ContinuePrompt();
