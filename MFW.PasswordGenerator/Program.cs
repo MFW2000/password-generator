@@ -16,7 +16,7 @@ public static class Program
     /// <summary>
     /// Retrieves the version of the application from the assembly metadata.
     /// </summary>
-    /// <returns>The application version in the format "Major.Minor.Build"</returns>
+    /// <returns>The application version in the format "Major.Minor.Build".</returns>
     public static string GetApplicationVersion()
     {
         var version = typeof(Program).Assembly.GetName().Version;
