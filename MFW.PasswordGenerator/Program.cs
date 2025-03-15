@@ -1,4 +1,14 @@
-﻿namespace MFW.PasswordGenerator;
+﻿using MFW.PasswordGenerator.Core;
+using MFW.PasswordGenerator.Core.Interfaces;
+using MFW.PasswordGenerator.Factories;
+using MFW.PasswordGenerator.Factories.Interfaces;
+using MFW.PasswordGenerator.Prompts.Feature;
+using MFW.PasswordGenerator.Prompts.Main;
+using MFW.PasswordGenerator.Providers;
+using MFW.PasswordGenerator.Providers.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace MFW.PasswordGenerator;
 
 /// <summary>
 /// Represents the primary entry point for running the application.
@@ -10,17 +20,24 @@ public static class Program
     /// </summary>
     public static void Main()
     {
-        PasswordGeneratorRunner.Run();
+        var serviceProvider = ConfigureServices();
+        var runner = serviceProvider.GetRequiredService<IPromptRunner>();
+
+        runner.Run();
     }
 
-    /// <summary>
-    /// Retrieves the version of the application from the assembly metadata.
-    /// </summary>
-    /// <returns>The application version in the format "Major.Minor.Build".</returns>
-    public static string GetApplicationVersion()
+    private static ServiceProvider ConfigureServices()
     {
-        var version = typeof(Program).Assembly.GetName().Version;
+        var services = new ServiceCollection();
 
-        return version is null ? "0.0.0" : $"{version.Major}.{version.Minor}.{version.Build}";
+        // Register services.
+        services.AddSingleton<IPromptRunner, PromptRunner>();
+        services.AddSingleton<IAssemblyVersionProvider, AssemblyVersionProvider>();
+        services.AddTransient<IPromptFactory, PromptFactory>();
+        services.AddTransient<MainMenu>();
+        services.AddTransient<GeneratePassword>();
+        services.AddTransient<HashPassword>();
+
+        return services.BuildServiceProvider();
     }
 }

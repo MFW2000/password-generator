@@ -1,4 +1,4 @@
-﻿using MFW.PasswordGenerator.Prompts.Main;
+﻿using MFW.PasswordGenerator.Enumerations;
 
 namespace MFW.PasswordGenerator.Prompts.Feature;
 
@@ -17,10 +17,10 @@ public class GeneratePassword : Prompt
     }
 
     /// <inheritdoc/>
-    public override Prompt HandlePrompt()
+    public override PromptType? HandlePrompt()
     {
         ContinuePrompt();
 
-        return new MainMenu();
+        return PromptType.MainMenu;
     }
 }

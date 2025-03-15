@@ -1,39 +1,52 @@
-﻿using MFW.PasswordGenerator.Prompts.Feature;
+﻿using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Prompts.Main;
+using MFW.PasswordGenerator.Providers.Interfaces;
+using Moq;
 
 namespace MFW.PasswordGeneratorTests.Prompts.Main;
 
 [TestClass]
 public class MainMenuTests
 {
-    private MainMenu _mainMenu = null!;
+    private Mock<IAssemblyVersionProvider> _assemblyVersionProviderMock = null!;
+    private MainMenu _sut = null!;
 
     [TestInitialize]
     public void Setup()
     {
-        _mainMenu = new MainMenu();
+        _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>(MockBehavior.Strict);
+        _sut = new MainMenu(_assemblyVersionProviderMock.Object);
     }
 
     [TestMethod]
     public void DisplayPrompt_ShouldOutputExpectedText()
     {
         // Arrange
+        var version = new Version(1, 2, 3);
+
+        _assemblyVersionProviderMock
+            .Setup(x => x.GetVersion())
+            .Returns(version)
+            .Verifiable(Times.Once);
+
         var consoleOutput = new StringWriter();
 
         Console.SetOut(consoleOutput);
 
         // Act
-        _mainMenu.DisplayPrompt();
+        _sut.DisplayPrompt();
 
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("=== Password Generator v"));
+        Assert.IsTrue(output.Contains($"=== Password Generator v{version.ToString(3)}"));
         Assert.IsTrue(output.Contains("Generate and/or hash passwords."));
         Assert.IsTrue(output.Contains("Select an option:"));
         Assert.IsTrue(output.Contains("1. Generate password"));
         Assert.IsTrue(output.Contains("2. Hash password"));
         Assert.IsTrue(output.Contains("3. Exit"));
+
+        _assemblyVersionProviderMock.Verify();
     }
 
     [TestMethod]
@@ -45,10 +58,10 @@ public class MainMenuTests
         Console.SetIn(consoleInput);
 
         // Act
-        var result = _mainMenu.HandlePrompt();
+        var result = _sut.HandlePrompt();
 
         // Assert
-        Assert.IsInstanceOfType(result, typeof(GeneratePassword));
+        Assert.AreEqual(PromptType.GeneratePassword, result);
     }
 
     [TestMethod]
@@ -60,7 +73,7 @@ public class MainMenuTests
         Console.SetIn(consoleInput);
 
         // Act
-        var result = _mainMenu.HandlePrompt();
+        var result = _sut.HandlePrompt();
 
         // Assert
         Assert.IsNull(result);
@@ -79,7 +92,7 @@ public class MainMenuTests
         Console.SetOut(consoleOutput);
 
         // Act
-        var result = _mainMenu.HandlePrompt();
+        var result = _sut.HandlePrompt();
 
         // Assert
         var output = consoleOutput.ToString();
