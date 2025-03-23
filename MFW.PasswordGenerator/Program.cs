@@ -26,6 +26,10 @@ public static class Program
         runner.Run();
     }
 
+    /// <summary>
+    /// Configures and builds a service provider with registered dependency injection services for the application.
+    /// </summary>
+    /// <returns>A <see cref="ServiceProvider"/> instance containing the configured services.</returns>
     private static ServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();

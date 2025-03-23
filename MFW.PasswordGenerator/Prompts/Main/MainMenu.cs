@@ -6,6 +6,7 @@ namespace MFW.PasswordGenerator.Prompts.Main;
 /// <summary>
 /// Responsible for guiding the user to all application features.
 /// </summary>
+/// <param name="assemblyVersionProvider">Provides the assembly version of the application.</param>
 public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
 {
     /// <inheritdoc/>
@@ -44,6 +45,10 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         }
     }
 
+    /// <summary>
+    /// Retrieves the application's assembly version as a formatted string.
+    /// </summary>
+    /// <returns>A string representing the assembly version in the format "major.minor.build".</returns>
     private string GetAssemblyVersionString()
     {
         return assemblyVersionProvider.GetVersion().ToString(3);
