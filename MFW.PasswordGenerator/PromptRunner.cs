@@ -5,7 +5,7 @@ using MFW.PasswordGenerator.Prompts;
 using MFW.PasswordGenerator.Prompts.Feature;
 using MFW.PasswordGenerator.Prompts.Main;
 
-namespace MFW.PasswordGenerator.Infrastructure;
+namespace MFW.PasswordGenerator;
 
 /// <summary>
 /// Provides the main execution loop for the Password Generator application.

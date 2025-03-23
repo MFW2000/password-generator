@@ -1,4 +1,5 @@
-﻿using MFW.PasswordGenerator.Enumerations;
+﻿using MFW.PasswordGenerator;
+using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Factories.Interfaces;
 using MFW.PasswordGenerator.Infrastructure;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
