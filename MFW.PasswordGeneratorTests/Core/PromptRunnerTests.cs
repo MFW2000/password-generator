@@ -1,6 +1,7 @@
-﻿using MFW.PasswordGenerator.Core;
-using MFW.PasswordGenerator.Enumerations;
+﻿using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Factories.Interfaces;
+using MFW.PasswordGenerator.Infrastructure;
+using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Prompts.Feature;
 using MFW.PasswordGenerator.Prompts.Main;
 using MFW.PasswordGenerator.Providers.Interfaces;
@@ -11,9 +12,9 @@ namespace MFW.PasswordGeneratorTests.Core;
 [TestClass]
 public class PromptRunnerTests
 {
-    /*
     private Mock<IAssemblyVersionProvider> _assemblyVersionProviderMock = null!;
     private Mock<IPromptFactory> _promptFactoryMock = null!;
+    private Mock<IConsoleClear> _consoleClearMock = null!;
     private Mock<MainMenu> _mainMenuMock = null!;
     private Mock<GeneratePassword> _generatePasswordMock  = null!;
     private PromptRunner _sut = null!;
@@ -23,9 +24,10 @@ public class PromptRunnerTests
     {
         _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>();
         _promptFactoryMock = new Mock<IPromptFactory>(MockBehavior.Strict);
+        _consoleClearMock = new Mock<IConsoleClear>(MockBehavior.Strict);
         _mainMenuMock = new Mock<MainMenu>(MockBehavior.Strict, _assemblyVersionProviderMock.Object);
         _generatePasswordMock = new Mock<GeneratePassword>(MockBehavior.Strict);
-        _sut = new PromptRunner(_promptFactoryMock.Object);
+        _sut = new PromptRunner(_promptFactoryMock.Object, _consoleClearMock.Object);
     }
 
     [TestMethod]
@@ -62,6 +64,10 @@ public class PromptRunnerTests
             .Returns(_generatePasswordMock.Object)
             .Verifiable(Times.Once);
 
+        _consoleClearMock
+            .Setup(x => x.Clear())
+            .Verifiable(Times.Exactly(2));
+
         var consoleOutput = new StringWriter();
 
         Console.SetOut(consoleOutput);
@@ -72,12 +78,11 @@ public class PromptRunnerTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.Contains(mainMenuString, output);
-        Assert.Contains(generatePasswordString, output);
+        Assert.IsTrue(output.Contains(mainMenuString));
+        Assert.IsTrue(output.Contains(generatePasswordString));
 
         _mainMenuMock.Verify();
         _generatePasswordMock.Verify();
         _promptFactoryMock.Verify();
     }
-    */
 }

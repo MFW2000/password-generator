@@ -1,26 +1,27 @@
-﻿using MFW.PasswordGenerator.Core.Interfaces;
-using MFW.PasswordGenerator.Enumerations;
+﻿using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Factories.Interfaces;
+using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Prompts;
 using MFW.PasswordGenerator.Prompts.Feature;
 using MFW.PasswordGenerator.Prompts.Main;
 
-namespace MFW.PasswordGenerator.Core;
+namespace MFW.PasswordGenerator.Infrastructure;
 
 /// <summary>
 /// Provides the main execution loop for the Password Generator application.
 /// </summary>
-public class PromptRunner(IPromptFactory promptFactory) : IPromptRunner
+public class PromptRunner(IPromptFactory promptFactory, IConsoleClear consoleClear)
 {
-    /// <inheritdoc/>
+    /// <summary>
+    /// Executes the main loop of the Password Generator application.
+    /// </summary>
     public void Run()
     {
         Prompt? currentPrompt = promptFactory.CreatePrompt<MainMenu>();
 
         while (currentPrompt is not null)
         {
-            // TODO: Method can currently not be tested, Console might have to be abstracted so it can be mocked.
-            Console.Clear();
+            consoleClear.Clear();
 
             currentPrompt.DisplayPrompt();
 
