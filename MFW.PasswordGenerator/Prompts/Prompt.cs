@@ -1,4 +1,6 @@
-﻿namespace MFW.PasswordGenerator.Prompts;
+﻿using MFW.PasswordGenerator.Enumerations;
+
+namespace MFW.PasswordGenerator.Prompts;
 
 /// <summary>
 /// Defines the structure for prompts.
@@ -14,7 +16,7 @@ public abstract class Prompt
     /// Handle the user's input after the prompt is displayed.
     /// </summary>
     /// <returns>Next prompt to navigate to or null to exit the application.</returns>
-    public abstract Prompt? HandlePrompt();
+    public abstract PromptType? HandlePrompt();
 
     /// <summary>
     /// Displays a prompt to the user, asking whether they want to continue.
