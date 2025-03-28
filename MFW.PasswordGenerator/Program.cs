@@ -6,6 +6,8 @@ using MFW.PasswordGenerator.Prompts.Feature;
 using MFW.PasswordGenerator.Prompts.Main;
 using MFW.PasswordGenerator.Providers;
 using MFW.PasswordGenerator.Providers.Interfaces;
+using MFW.PasswordGenerator.Services;
+using MFW.PasswordGenerator.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MFW.PasswordGenerator;
@@ -35,9 +37,10 @@ public static class Program
         var services = new ServiceCollection();
 
         // Register services.
-        services.AddTransient<IAssemblyVersionProvider, AssemblyVersionProvider>();
+        services.AddSingleton<IAssemblyVersionProvider>(_ => new AssemblyVersionProvider(typeof(Program).Assembly));
         services.AddTransient<IPromptFactory, PromptFactory>();
         services.AddTransient<IConsoleClear, ConsoleClear>();
+        services.AddTransient<IPasswordGeneratorService, PasswordGeneratorService>();
         services.AddTransient<PromptRunner>();
         services.AddTransient<MainMenu>();
         services.AddTransient<GeneratePassword>();

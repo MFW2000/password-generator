@@ -1,14 +1,13 @@
 ﻿using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Factories.Interfaces;
-using MFW.PasswordGenerator.Infrastructure;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Prompts.Feature;
 using MFW.PasswordGenerator.Prompts.Main;
 using MFW.PasswordGenerator.Providers.Interfaces;
 using Moq;
 
-namespace MFW.PasswordGeneratorTests.Core;
+namespace MFW.PasswordGeneratorTests;
 
 [TestClass]
 public class PromptRunnerTests
