@@ -43,7 +43,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
         var password = passwordGeneratorService.Generate(options);
 
-        ClipboardService.SetText(password);
+        // ClipboardService.SetText(password);
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
