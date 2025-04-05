@@ -43,7 +43,8 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
         var password = passwordGeneratorService.Generate(options);
 
-        // ClipboardService.SetText(password);
+        // TODO: Replace this, likely with DI, to make it work with runners.
+        ClipboardService.SetText(password);
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
