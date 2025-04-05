@@ -17,12 +17,13 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         Console.WriteLine("Generate a new password with the preferences of your choice.");
         Console.WriteLine();
         Console.WriteLine("--- Constraints ---");
-        Console.WriteLine("Your preferences must comply with the following constraints:");
+        Console.WriteLine("The password must comply with the following constraints:");
         Console.WriteLine(
             $"- Length must be between {Constants.MinimumPasswordLength} and " +
-            $"{Constants.MaximumPasswordLength} characters.");
-        Console.WriteLine("- The password must contain at least uppercase, lowercase, digits, or special characters.");
-        Console.WriteLine("- There may not be more digits and/or special characters than the length.");
+            $"{Constants.MaximumPasswordLength} characters");
+        Console.WriteLine(
+            "- The password must at least contain uppercases, lowercases, digits, or special characters");
+        Console.WriteLine("- There may not be more digits and/or special characters than the length of the password");
         Console.WriteLine();
         Console.WriteLine("--- Preferences ---");
 

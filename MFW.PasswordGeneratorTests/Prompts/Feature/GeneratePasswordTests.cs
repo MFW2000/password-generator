@@ -48,5 +48,6 @@ public class GeneratePasswordTests
         _sut.DisplayPrompt();
 
         // Assert
+        // TODO: Add assertions after Prompt rework
     }
 }
