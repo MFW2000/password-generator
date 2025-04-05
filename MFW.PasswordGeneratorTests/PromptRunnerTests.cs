@@ -15,6 +15,7 @@ public class PromptRunnerTests
     private Mock<IPromptFactory> _promptFactoryMock = null!;
     private Mock<IConsoleClear> _consoleClearMock = null!;
     private Mock<MainMenu> _mainMenuMock = null!;
+
     private PromptRunner _sut = null!;
 
     [TestInitialize]
@@ -24,6 +25,7 @@ public class PromptRunnerTests
         _promptFactoryMock = new Mock<IPromptFactory>(MockBehavior.Strict);
         _consoleClearMock = new Mock<IConsoleClear>(MockBehavior.Strict);
         _mainMenuMock = new Mock<MainMenu>(MockBehavior.Strict, _assemblyVersionProviderMock.Object);
+
         _sut = new PromptRunner(_promptFactoryMock.Object, _consoleClearMock.Object);
     }
 

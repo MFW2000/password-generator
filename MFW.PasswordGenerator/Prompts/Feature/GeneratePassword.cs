@@ -1,4 +1,5 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
+using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
 
 namespace MFW.PasswordGenerator.Prompts.Feature;
@@ -22,6 +23,12 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         Console.WriteLine("Enter the minimum amount of special characters (default 1):");
 
         Console.WriteLine("Avoid ambiguous characters (yes/no, default no):");
+
+        var options = new PasswordGeneratorOptions(18, true, true, 1, 1, true);
+
+        var password = passwordGeneratorService.Generate(options);
+
+        Console.WriteLine(password);
     }
 
     /// <inheritdoc/>

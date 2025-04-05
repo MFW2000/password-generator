@@ -1,4 +1,5 @@
-﻿using MFW.PasswordGenerator.Records;
+﻿using MFW.PasswordGenerator;
+using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services;
 
 namespace MFW.PasswordGeneratorTests.Services;
@@ -6,9 +7,6 @@ namespace MFW.PasswordGeneratorTests.Services;
 [TestClass]
 public class PasswordGeneratorServiceTests
 {
-    private const string AmbiguousChars = "lIO01";
-    private const string SpecialChars = "!@#$%^&*";
-
     private PasswordGeneratorService _sut = null!;
 
     [TestInitialize]
@@ -107,7 +105,7 @@ public class PasswordGeneratorServiceTests
         var result = _sut.Generate(options);
 
         // Assert
-        var specialCharCount = result.Count(c => SpecialChars.Contains(c));
+        var specialCharCount = result.Count(c => Constants.Special.Contains(c));
 
         Assert.IsTrue(specialCharCount >= specials);
     }
@@ -126,7 +124,7 @@ public class PasswordGeneratorServiceTests
         var result = _sut.Generate(options);
 
         // Assert
-        var ambiguousCharCount = result.Count(c => AmbiguousChars.Contains(c));
+        var ambiguousCharCount = result.Count(c => Constants.AmbiguousCharacters.Contains(c));
 
         Assert.AreEqual(0, ambiguousCharCount);
     }

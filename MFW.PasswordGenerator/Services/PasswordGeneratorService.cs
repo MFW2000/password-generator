@@ -7,12 +7,6 @@ namespace MFW.PasswordGenerator.Services;
 
 public class PasswordGeneratorService : IPasswordGeneratorService
 {
-    private const string Special = "!@#$%^&*";
-
-    private static string _uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static string _lowercase = "abcdefghijklmnopqrstuvwxyz";
-    private static string _digits = "0123456789";
-
     public string Generate(PasswordGeneratorOptions options)
     {
         if (options.Length is < 5 or > 128)
@@ -66,53 +60,59 @@ public class PasswordGeneratorService : IPasswordGeneratorService
         return password;
     }
 
-    // TODO: Perhaps add comments or extract code to clarify what is happening.
-
-    // pre-populate the password with the required characters before filling the remaining length randomly.
-
+    /// <summary>
+    /// Generates a randomized password based on the specified options. To ensure that characters from the selected
+    /// categories are included at least once (or as specified by minimum requirements), the password is pre-populated
+    /// with the required characters before filling the remaining length with random characters from the allowed pool.
+    /// </summary>
+    /// <param name="options">The options that specify the password requirements.</param>
+    /// <returns>The generated password that meets the specified requirements.</returns>
     private static string RandomizePassword(PasswordGeneratorOptions options)
     {
+        var uppercase = Constants.Uppercase;
+        var lowercase = Constants.Lowercase;
+        var digits = Constants.Digits;
         var random = new Random();
         var passwordCharacters = new List<char>();
         var remainingCharacterPool = string.Empty;
 
         if (options.AvoidAmbiguousCharacters)
         {
-            _uppercase = Regex.AmbiguousCharactersRegex().Replace(_uppercase, "");
-            _lowercase = Regex.AmbiguousCharactersRegex().Replace(_lowercase, "");
-            _digits = Regex.AmbiguousCharactersRegex().Replace(_digits, "");
+            uppercase = RegexUtility.AmbiguousCharactersRegex().Replace(uppercase, "");
+            lowercase = RegexUtility.AmbiguousCharactersRegex().Replace(lowercase, "");
+            digits = RegexUtility.AmbiguousCharactersRegex().Replace(digits, "");
         }
 
         if (options.IncludeUppercase)
         {
-            passwordCharacters.Add(_uppercase[random.Next(_uppercase.Length)]);
-            remainingCharacterPool += _uppercase;
+            passwordCharacters.Add(uppercase[random.Next(uppercase.Length)]);
+            remainingCharacterPool += uppercase;
         }
 
         if (options.IncludeLowercase)
         {
-            passwordCharacters.Add(_lowercase[random.Next(_lowercase.Length)]);
-            remainingCharacterPool += _lowercase;
+            passwordCharacters.Add(lowercase[random.Next(lowercase.Length)]);
+            remainingCharacterPool += lowercase;
         }
 
         if (options.MinimumDigits > 0)
         {
             for (var i = 0; i < options.MinimumDigits; i++)
             {
-                passwordCharacters.Add(_digits[random.Next(_digits.Length)]);
+                passwordCharacters.Add(digits[random.Next(digits.Length)]);
             }
 
-            remainingCharacterPool += _digits;
+            remainingCharacterPool += digits;
         }
 
         if (options.MinimumSpecialCharacters > 0)
         {
             for (var i = 0; i < options.MinimumSpecialCharacters; i++)
             {
-                passwordCharacters.Add(Special[random.Next(Special.Length)]);
+                passwordCharacters.Add(Constants.Special[random.Next(Constants.Special.Length)]);
             }
 
-            remainingCharacterPool += Special;
+            remainingCharacterPool += Constants.Special;
         }
 
         while (passwordCharacters.Count < options.Length)

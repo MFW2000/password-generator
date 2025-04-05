@@ -8,12 +8,14 @@ namespace MFW.PasswordGeneratorTests.Providers;
 public class AssemblyVersionProviderTests
 {
     private Mock<Assembly> _assemblyMock = null!;
+
     private AssemblyVersionProvider _sut = null!;
 
     [TestInitialize]
     public void Initialize()
     {
         _assemblyMock = new Mock<Assembly>(MockBehavior.Strict);
+
         _sut = new AssemblyVersionProvider(_assemblyMock.Object);
     }
 
