@@ -12,10 +12,10 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
     /// <inheritdoc/>
     public override void DisplayPrompt()
     {
-        Console.WriteLine($"=== {Constants.AppTitle} v{GetAssemblyVersionString()} ===");
-        Console.WriteLine(Constants.AppSubTitle);
+        Console.WriteLine($"=== {CommonText.AppTitle} v{GetAssemblyVersionString()} ===");
+        Console.WriteLine(CommonText.AppSubTitle);
         Console.WriteLine();
-        Console.WriteLine(Constants.TooltipOption);
+        Console.WriteLine(CommonText.TooltipOption);
         Console.WriteLine("1. Generate password");
         Console.WriteLine("2. Hash password");
         Console.WriteLine("3. Exit");
@@ -26,7 +26,7 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
     {
         while (true)
         {
-            Console.Write(Constants.InputPrompt);
+            Console.Write(CommonText.InputPrompt);
 
             var input = Console.ReadLine() ?? string.Empty;
 
@@ -39,7 +39,7 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
                 case "3":
                     return null;
                 default:
-                    Console.WriteLine(Constants.InputError);
+                    Console.WriteLine(CommonText.InputError);
                     break;
             }
         }

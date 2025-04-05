@@ -23,9 +23,9 @@ public abstract class Prompt
     /// </summary>
     protected static void ContinuePrompt()
     {
-        Console.WriteLine(Constants.TooltipContinue);
+        Console.WriteLine(CommonText.TooltipContinue);
 
-        Console.Write(Constants.InputPrompt);
+        Console.Write(CommonText.InputPrompt);
         Console.ReadKey();
     }
 }

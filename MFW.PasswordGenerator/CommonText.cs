@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides common text used throughout the application.
 /// </summary>
-public static class Constants
+public static class CommonText
 {
     public const string AppTitle = "Password Generator";
     public const string AppSubTitle = "Generate and/or hash passwords.";

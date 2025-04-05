@@ -1,14 +1,17 @@
-﻿using System.Text.RegularExpressions;
-using MFW.PasswordGenerator.Exceptions;
+﻿using MFW.PasswordGenerator.Exceptions;
+using MFW.PasswordGenerator.Infrastructure.Utility;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
 
 namespace MFW.PasswordGenerator.Services;
 
-public partial class PasswordGeneratorService : IPasswordGeneratorService
+public class PasswordGeneratorService : IPasswordGeneratorService
 {
-    [GeneratedRegex("[lIO01]")]
-    private static partial Regex AmbiguousCharactersRegex();
+    private const string Special = "!@#$%^&*";
+
+    private static string _uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static string _lowercase = "abcdefghijklmnopqrstuvwxyz";
+    private static string _digits = "0123456789";
 
     public string Generate(PasswordGeneratorOptions options)
     {
@@ -19,42 +22,41 @@ public partial class PasswordGeneratorService : IPasswordGeneratorService
                 "Password length must be between 5 and 128 characters.");
         }
 
-        if (options.MinimumNumbers < 0)
+        if (options.MinimumDigits < 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(options),
-                "Minimum number count cannot be a negative number.");
+                "Minimum digit count cannot be a negative amount.");
         }
 
         if (options.MinimumSpecialCharacters < 0)
         {
             throw new ArgumentOutOfRangeException(
                 nameof(options),
-                "Minimum special characters cannot be a negative number.");
+                "Minimum special characters cannot be a negative amount.");
         }
 
-        if (options.MinimumNumbers + options.MinimumSpecialCharacters > options.Length)
+        if (options.MinimumDigits + options.MinimumSpecialCharacters > options.Length)
         {
-            throw new ArgumentException("Cannot have more numbers or special characters than the password length.");
+            throw new ArgumentException("Cannot have more digits or special characters than the password length.");
         }
 
         var isInvalidPasswordConfig = options is
         {
             IncludeUppercase: false,
             IncludeLowercase: false,
-            MinimumNumbers: 0,
+            MinimumDigits: 0,
             MinimumSpecialCharacters: 0
         };
 
         if (isInvalidPasswordConfig)
         {
             throw new ArgumentException(
-                "Password options must include at least one of: uppercase letters, lowercase letters, numbers, or " +
+                "Password options must include at least one of: uppercase letters, lowercase letters, digits, or " +
                 "special characters.");
         }
 
-        var characters = GetPasswordCharacters(options);
-        var password = RandomizePassword(options.Length, characters);
+        var password = RandomizePassword(options);
 
         if (string.IsNullOrEmpty(password))
         {
@@ -64,46 +66,62 @@ public partial class PasswordGeneratorService : IPasswordGeneratorService
         return password;
     }
 
-    private static string GetPasswordCharacters(PasswordGeneratorOptions options)
+    // TODO: Perhaps add comments or extract code to clarify what is happening.
+
+    // pre-populate the password with the required characters before filling the remaining length randomly.
+
+    private static string RandomizePassword(PasswordGeneratorOptions options)
     {
-        var characters = string.Empty;
+        var random = new Random();
+        var passwordCharacters = new List<char>();
+        var remainingCharacterPool = string.Empty;
+
+        if (options.AvoidAmbiguousCharacters)
+        {
+            _uppercase = Regex.AmbiguousCharactersRegex().Replace(_uppercase, "");
+            _lowercase = Regex.AmbiguousCharactersRegex().Replace(_lowercase, "");
+            _digits = Regex.AmbiguousCharactersRegex().Replace(_digits, "");
+        }
 
         if (options.IncludeUppercase)
         {
-            characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            passwordCharacters.Add(_uppercase[random.Next(_uppercase.Length)]);
+            remainingCharacterPool += _uppercase;
         }
 
         if (options.IncludeLowercase)
         {
-            characters += "abcdefghijklmnopqrstuvwxyz";
+            passwordCharacters.Add(_lowercase[random.Next(_lowercase.Length)]);
+            remainingCharacterPool += _lowercase;
         }
 
-        if (options.MinimumNumbers > 0)
+        if (options.MinimumDigits > 0)
         {
-            characters += "0123456789";
+            for (var i = 0; i < options.MinimumDigits; i++)
+            {
+                passwordCharacters.Add(_digits[random.Next(_digits.Length)]);
+            }
+
+            remainingCharacterPool += _digits;
         }
 
         if (options.MinimumSpecialCharacters > 0)
         {
-            characters += "!@#$%^&*";
+            for (var i = 0; i < options.MinimumSpecialCharacters; i++)
+            {
+                passwordCharacters.Add(Special[random.Next(Special.Length)]);
+            }
+
+            remainingCharacterPool += Special;
         }
 
-        if (options.AvoidAmbiguousCharacters)
+        while (passwordCharacters.Count < options.Length)
         {
-            characters = AmbiguousCharactersRegex().Replace(characters, "");
+            passwordCharacters.Add(remainingCharacterPool[random.Next(remainingCharacterPool.Length)]);
         }
 
-        return characters;
-    }
+        var shuffledPassword = string.Join("", passwordCharacters.OrderBy(_ => random.Next()));
 
-    private static string RandomizePassword(int length, string characters)
-    {
-        var random = new Random();
-        var randomizedPasswordChars = Enumerable
-            .Repeat(characters, length)
-            .Select(s => s[random.Next(s.Length)])
-            .ToArray();
-
-        return string.Join("", randomizedPasswordChars);
+        return shuffledPassword;
     }
 }

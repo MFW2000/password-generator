@@ -4,6 +4,6 @@ public record PasswordGeneratorOptions(
     int Length,
     bool IncludeUppercase,
     bool IncludeLowercase,
-    int MinimumNumbers,
+    int MinimumDigits,
     int MinimumSpecialCharacters,
     bool AvoidAmbiguousCharacters);
