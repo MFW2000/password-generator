@@ -10,4 +10,7 @@ public static class Constants
     public const string Digits = "0123456789";
     public const string Special = "!@#$%^&*";
     public const string AmbiguousCharacters = "lIO01";
+
+    public const int MinimumPasswordLength = 5;
+    public const int MaximumPasswordLength = 128;
 }

@@ -5,34 +5,33 @@ using MFW.PasswordGenerator.Services.Interfaces;
 
 namespace MFW.PasswordGenerator.Services;
 
+/// <summary>
+/// Implements <see cref="IPasswordGeneratorService"/> for generating new passwords.
+/// </summary>
 public class PasswordGeneratorService : IPasswordGeneratorService
 {
+    /// <inheritdoc/>
     public string Generate(PasswordGeneratorOptions options)
     {
-        if (options.Length is < 5 or > 128)
+        if (options.Length is < Constants.MinimumPasswordLength or > Constants.MaximumPasswordLength)
         {
-            throw new ArgumentOutOfRangeException(
-                nameof(options),
-                "Password length must be between 5 and 128 characters.");
+            throw new PasswordGeneratorException("Password length must be between 5 and 128 characters.");
         }
 
         if (options.MinimumDigits < 0)
         {
-            throw new ArgumentOutOfRangeException(
-                nameof(options),
-                "Minimum digit count cannot be a negative amount.");
+            throw new PasswordGeneratorException("Minimum digit count cannot be a negative amount.");
         }
 
         if (options.MinimumSpecialCharacters < 0)
         {
-            throw new ArgumentOutOfRangeException(
-                nameof(options),
-                "Minimum special characters cannot be a negative amount.");
+            throw new PasswordGeneratorException("Minimum special characters cannot be a negative amount.");
         }
 
         if (options.MinimumDigits + options.MinimumSpecialCharacters > options.Length)
         {
-            throw new ArgumentException("Cannot have more digits or special characters than the password length.");
+            throw new PasswordGeneratorException(
+                "Cannot have more digits or special characters than the password length.");
         }
 
         var isInvalidPasswordConfig = options is
@@ -45,23 +44,16 @@ public class PasswordGeneratorService : IPasswordGeneratorService
 
         if (isInvalidPasswordConfig)
         {
-            throw new ArgumentException(
+            throw new PasswordGeneratorException(
                 "Password options must include at least one of: uppercase letters, lowercase letters, digits, or " +
                 "special characters.");
         }
 
-        var password = RandomizePassword(options);
-
-        if (string.IsNullOrEmpty(password))
-        {
-            throw new PasswordGeneratorException("Something went wrong while generating the password.");
-        }
-
-        return password;
+        return RandomizePassword(options);
     }
 
     /// <summary>
-    /// Generates a randomized password based on the specified options. To ensure that characters from the selected
+    /// Randomizes a new password based on the specified options. To ensure that characters from the selected
     /// categories are included at least once (or as specified by minimum requirements), the password is pre-populated
     /// with the required characters before filling the remaining length with random characters from the allowed pool.
     /// </summary>

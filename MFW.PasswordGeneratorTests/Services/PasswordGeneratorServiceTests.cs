@@ -1,4 +1,5 @@
 ﻿using MFW.PasswordGenerator;
+using MFW.PasswordGenerator.Exceptions;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services;
 
@@ -22,7 +23,7 @@ public class PasswordGeneratorServiceTests
         var options = GetOptions(0);
 
         // Act & Assert
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => _sut.Generate(options));
+        Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
     }
 
     [TestMethod]
@@ -32,7 +33,7 @@ public class PasswordGeneratorServiceTests
         var options = GetOptions();
 
         // Act & Assert
-        Assert.ThrowsExactly<ArgumentException>(() => _sut.Generate(options));
+        Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
     }
 
     [TestMethod]
@@ -136,7 +137,7 @@ public class PasswordGeneratorServiceTests
         var options = GetOptions(4);
 
         // Act & Assert
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => _sut.Generate(options));
+        Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
     }
 
     [TestMethod]
@@ -146,7 +147,7 @@ public class PasswordGeneratorServiceTests
         var options = GetOptions(129);
 
         // Act & Assert
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => _sut.Generate(options));
+        Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
     }
 
     [TestMethod]
@@ -156,7 +157,7 @@ public class PasswordGeneratorServiceTests
         var options = GetOptions(minimumDigits: -1);
 
         // Act & Assert
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => _sut.Generate(options));
+        Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
     }
 
     [TestMethod]
@@ -166,7 +167,7 @@ public class PasswordGeneratorServiceTests
         var options = GetOptions(minimumSpecialCharacters: -1);
 
         // Act & Assert
-        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => _sut.Generate(options));
+        Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
     }
 
     [TestMethod]
@@ -176,7 +177,7 @@ public class PasswordGeneratorServiceTests
         var options = GetOptions(length: 10, minimumDigits: 6, minimumSpecialCharacters: 6);
 
         // Act & Assert
-        Assert.ThrowsExactly<ArgumentException>(() => _sut.Generate(options));
+        Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
     }
 
     [TestMethod]
@@ -186,7 +187,7 @@ public class PasswordGeneratorServiceTests
         var options = GetOptions(useUppercase: false, useLowercase: false, minimumDigits: 0, minimumSpecialCharacters: 0);
 
         // Act & Assert
-        Assert.ThrowsExactly<ArgumentException>(() => _sut.Generate(options));
+        Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
     }
 
     private static PasswordGeneratorOptions GetOptions(
