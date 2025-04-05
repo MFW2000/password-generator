@@ -9,12 +9,14 @@ namespace MFW.PasswordGeneratorTests.Prompts.Main;
 public class MainMenuTests
 {
     private Mock<IAssemblyVersionProvider> _assemblyVersionProviderMock = null!;
+
     private MainMenu _sut = null!;
 
     [TestInitialize]
     public void Setup()
     {
         _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>(MockBehavior.Strict);
+
         _sut = new MainMenu(_assemblyVersionProviderMock.Object);
     }
 
