@@ -8,7 +8,7 @@ namespace MFW.PasswordGenerator.Prompts.Feature;
 /// <summary>
 /// Responsible for assisting the user in generating a new password.
 /// </summary>
-public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService) : Prompt
+public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService, IClipboard clipboard) : Prompt
 {
     /// <inheritdoc/>
     public override void DisplayPrompt()
@@ -43,8 +43,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
         var password = passwordGeneratorService.Generate(options);
 
-        // TODO: Replace this, likely with DI, to make it work with runners.
-        ClipboardService.SetText(password);
+        clipboard.SetText(password);
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
