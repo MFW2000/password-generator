@@ -25,9 +25,7 @@ public class PromptRunner(IPromptFactory promptFactory, IConsoleClear consoleCle
         {
             consoleClear.Clear();
 
-            currentPrompt.DisplayPrompt();
-
-            var promptResult = currentPrompt.HandlePrompt();
+            var promptResult = currentPrompt.DisplayMainPrompt();
 
             currentPrompt = GetNextPrompt(promptResult);
         }

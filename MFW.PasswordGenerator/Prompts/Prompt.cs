@@ -8,15 +8,10 @@ namespace MFW.PasswordGenerator.Prompts;
 public abstract class Prompt
 {
     /// <summary>
-    /// Display the prompt to the user.
-    /// </summary>
-    public abstract void DisplayPrompt();
-
-    /// <summary>
-    /// Handle the user's input after the prompt is displayed.
+    /// Display the main prompt and handle the user's input.
     /// </summary>
     /// <returns>Next prompt to navigate to or null to exit the application.</returns>
-    public abstract PromptType? HandlePrompt();
+    public abstract PromptType? DisplayMainPrompt();
 
     /// <summary>
     /// Displays a prompt to the user, asking whether they want to continue.
@@ -26,7 +21,7 @@ public abstract class Prompt
         Console.WriteLine(CommonText.TooltipContinue);
 
         Console.Write(CommonText.InputPrompt);
-        Console.ReadKey();
+        Console.Read();
     }
 
     /// <summary>

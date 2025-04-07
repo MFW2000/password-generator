@@ -11,7 +11,7 @@ namespace MFW.PasswordGenerator.Prompts.Feature;
 public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService, IClipboard clipboard) : Prompt
 {
     /// <inheritdoc/>
-    public override void DisplayPrompt()
+    public override PromptType? DisplayMainPrompt()
     {
         Console.WriteLine("=== Generate Password ===");
         Console.WriteLine("Generate a new password with the preferences of your choice.");
@@ -52,11 +52,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         Console.WriteLine($"New password: {password}");
         Console.WriteLine("The password was saved to your clipboard.");
         Console.WriteLine();
-    }
 
-    /// <inheritdoc/>
-    public override PromptType? HandlePrompt()
-    {
         ContinuePrompt();
 
         return PromptType.MainMenu;
