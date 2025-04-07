@@ -11,6 +11,13 @@ public static class Constants
     public const string Special = "!@#$%^&*";
     public const string AmbiguousCharacters = "lIO01";
 
+    public const int PasswordLengthDefault = 18;
+    public const bool UseUppercaseInPasswordDefault = true;
+    public const bool UseLowercaseInPasswordDefault = true;
+    public const int MinimumPasswordDigitsDefault = 1;
+    public const int MinimumSpecialPasswordCharactersDefault = 1;
+    public const bool AvoidAmbiguousCharactersInPasswordDefault = false;
+
     public const int MinimumPasswordLength = 5;
     public const int MaximumPasswordLength = 128;
 }

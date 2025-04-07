@@ -49,7 +49,9 @@ public class PasswordGeneratorService : IPasswordGeneratorService
                 "special characters.");
         }
 
-        return RandomizePassword(options);
+        var password = RandomizePassword(options);
+
+        return password;
     }
 
     /// <summary>

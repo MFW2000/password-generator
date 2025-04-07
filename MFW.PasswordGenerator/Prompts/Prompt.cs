@@ -21,7 +21,7 @@ public abstract class Prompt
         Console.WriteLine(CommonText.TooltipContinue);
 
         Console.Write(CommonText.InputPrompt);
-        Console.Read();
+        Console.ReadLine();
     }
 
     /// <summary>
