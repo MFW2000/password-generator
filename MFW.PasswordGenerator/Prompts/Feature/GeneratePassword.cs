@@ -29,10 +29,10 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
         var length = PromptPasswordLength();
         var includeUppercase = PromptYesNo(
-            "Include upper case characters (YES/no):",
+            "Include uppercase characters (YES/no):",
             Constants.UseUppercaseInPasswordDefault);
         var includeLowercase = PromptYesNo(
-            "Include lower case characters (YES/no):",
+            "Include lowercase characters (YES/no):",
             Constants.UseLowercaseInPasswordDefault);
         var minimumDigits = PromptMinimumDigits(length);
         var minimumSpecialCharacters = PromptMinimumSpecialCharacters(length, minimumDigits);
@@ -54,7 +54,6 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
-
         Console.WriteLine($"New password: {password}");
         Console.WriteLine("The password was saved to your clipboard.");
         Console.WriteLine();
@@ -151,14 +150,15 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
     {
         if (length == minimumDigits)
         {
-            Console.WriteLine("Special character input skipped, there is no room left for additional " +
-                              "special characters.");
+            Console.WriteLine(
+                "Special character input skipped, there is no room left for additional special characters.");
 
             return 0;
         }
 
-        Console.WriteLine($"Enter the minimum amount of special characters to be included " +
-                          $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):");
+        Console.WriteLine(
+            $"Enter the minimum amount of special characters to be included " +
+            $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):");
 
         while (true)
         {
@@ -180,8 +180,8 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
             if (minimumDigits + minimumSpecialCharacters > length)
             {
-                Console.WriteLine("The combined total of special characters and digits cannot exceed the " +
-                                  "password's length.");
+                Console.WriteLine(
+                    "The combined total of special characters and digits cannot exceed the password's length.");
 
                 continue;
             }
