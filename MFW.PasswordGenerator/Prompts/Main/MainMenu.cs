@@ -10,7 +10,7 @@ namespace MFW.PasswordGenerator.Prompts.Main;
 public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
 {
     /// <inheritdoc/>
-    public override void DisplayPrompt()
+    public override PromptType? DisplayMainPrompt()
     {
         Console.WriteLine($"=== {CommonText.AppTitle} v{GetAssemblyVersionString()} ===");
         Console.WriteLine(CommonText.AppSubTitle);
@@ -19,11 +19,7 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         Console.WriteLine("1. Generate password");
         Console.WriteLine("2. Hash password");
         Console.WriteLine("3. Exit");
-    }
 
-    /// <inheritdoc/>
-    public override PromptType? HandlePrompt()
-    {
         while (true)
         {
             Console.Write(CommonText.InputPrompt);

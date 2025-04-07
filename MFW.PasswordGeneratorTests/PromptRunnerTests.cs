@@ -30,17 +30,11 @@ public class PromptRunnerTests
     }
 
     [TestMethod]
-    public void Run_NavigatesFromMainMenuToGeneratePassword()
+    public void Run_NavigatesToExit()
     {
         // Arrange
-        const string mainMenuString = nameof(MainMenu);
-
         _mainMenuMock
-            .Setup(x => x.DisplayPrompt())
-            .Callback(() => Console.WriteLine(mainMenuString))
-            .Verifiable(Times.Once);
-        _mainMenuMock
-            .Setup(x => x.HandlePrompt())
+            .Setup(x => x.DisplayMainPrompt())
             .Returns((PromptType?)null)
             .Verifiable(Times.Once);
 
@@ -61,10 +55,6 @@ public class PromptRunnerTests
         _sut.Run();
 
         // Assert
-        var output = consoleOutput.ToString();
-
-        Assert.IsTrue(output.Contains(nameof(MainMenu)));
-
         _mainMenuMock.Verify();
         _promptFactoryMock.Verify();
     }

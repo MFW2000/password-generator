@@ -24,7 +24,7 @@ public class GeneratePasswordTests
     }
 
     [TestMethod]
-    public void DisplayPrompt_ShouldOutputExpectedText()
+    public void DisplayMainPrompt_ShouldOutputExpectedText()
     {
         // Arrange
         const string password = "admin";
@@ -38,14 +38,14 @@ public class GeneratePasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleOutput = new StringWriter();
         var consoleInput = new StringReader("");
+        var consoleOutput = new StringWriter();
 
-        Console.SetOut(consoleOutput);
         Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
 
         // Act
-        _sut.DisplayPrompt();
+        _sut.DisplayMainPrompt();
 
         // Assert
         // TODO: Add assertions after Prompt rework

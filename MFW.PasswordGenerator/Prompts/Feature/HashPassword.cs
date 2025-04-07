@@ -7,18 +7,12 @@ namespace MFW.PasswordGenerator.Prompts.Feature;
 /// </summary>
 public class HashPassword : Prompt
 {
-    // TODO: Implement feature.
-
     /// <inheritdoc/>
-    public override void DisplayPrompt()
+    public override PromptType? DisplayMainPrompt()
     {
-        Console.WriteLine("This is the password hash feature.");
+        Console.WriteLine("This feature is currently not available.");
         Console.WriteLine();
-    }
 
-    /// <inheritdoc/>
-    public override PromptType? HandlePrompt()
-    {
         ContinuePrompt();
 
         return PromptType.MainMenu;
