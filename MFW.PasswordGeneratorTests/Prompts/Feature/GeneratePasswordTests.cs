@@ -488,7 +488,7 @@ public class GeneratePasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"\n\n\n{Constants.MinimumPasswordDigitsDefault}\n");
+        var consoleInput = new StringReader("\n\n\n\n");
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -626,7 +626,7 @@ public class GeneratePasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"\n\n\n\n{Constants.MinimumSpecialPasswordCharactersDefault}\n");
+        var consoleInput = new StringReader("\n\n\n\n\n");
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
