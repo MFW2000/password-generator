@@ -28,11 +28,17 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         Console.WriteLine("--- Preferences ---");
 
         var length = PromptPasswordLength();
-        var includeUppercase = PromptYesNo("Include upper case characters (YES/no):", true);
-        var includeLowercase = PromptYesNo("Include lower case characters (YES/no):", true);
+        var includeUppercase = PromptYesNo(
+            "Include uppercase characters (YES/no):",
+            Constants.UseUppercaseInPasswordDefault);
+        var includeLowercase = PromptYesNo(
+            "Include lowercase characters (YES/no):",
+            Constants.UseLowercaseInPasswordDefault);
         var minimumDigits = PromptMinimumDigits(length);
         var minimumSpecialCharacters = PromptMinimumSpecialCharacters(length, minimumDigits);
-        var avoidAmbiguousCharacters = PromptYesNo("Avoid ambiguous characters (yes/NO):", false);
+        var avoidAmbiguousCharacters = PromptYesNo(
+            "Avoid ambiguous characters (yes/NO):",
+            Constants.AvoidAmbiguousCharactersInPasswordDefault);
 
         var options = new PasswordGeneratorOptions(
             length,
@@ -48,7 +54,6 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
-
         Console.WriteLine($"New password: {password}");
         Console.WriteLine("The password was saved to your clipboard.");
         Console.WriteLine();
@@ -64,9 +69,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
     /// <returns>The specified length or the default length when the input is empty.</returns>
     private static int PromptPasswordLength()
     {
-        const int defaultPasswordLength = 18;
-
-        Console.WriteLine($"Enter the length of the password (default {defaultPasswordLength}):");
+        Console.WriteLine($"Enter the length of the password (default {Constants.PasswordLengthDefault}):");
 
         while (true)
         {
@@ -76,7 +79,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
             if (string.IsNullOrEmpty(input))
             {
-                return defaultPasswordLength;
+                return Constants.PasswordLengthDefault;
             }
 
             if (!int.TryParse(input, out var length))
@@ -104,9 +107,8 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
     /// <returns>The specified amount of digits or the default amount when the input is empty.</returns>
     private static int PromptMinimumDigits(int length)
     {
-        const int defaultMinimumDigits = 1;
-
-        Console.WriteLine($"Enter the minimum amount of digits to be included (default {defaultMinimumDigits}):");
+        Console.WriteLine(
+            $"Enter the minimum amount of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):");
 
         while (true)
         {
@@ -116,7 +118,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
             if (string.IsNullOrEmpty(input))
             {
-                return defaultMinimumDigits;
+                return Constants.MinimumPasswordDigitsDefault;
             }
 
             if (!int.TryParse(input, out var minimumDigits))
@@ -148,16 +150,15 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
     {
         if (length == minimumDigits)
         {
-            Console.WriteLine("Special character input skipped, there is no room left for additional " +
-                              "special characters.");
+            Console.WriteLine(
+                "Special character input skipped, there is no room left for additional special characters.");
 
             return 0;
         }
 
-        const int defaultMinimumSpecialCharacters = 1;
-
-        Console.WriteLine($"Enter the minimum amount of special characters to be included " +
-                          $"(default {defaultMinimumSpecialCharacters}):");
+        Console.WriteLine(
+            $"Enter the minimum amount of special characters to be included " +
+            $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):");
 
         while (true)
         {
@@ -167,7 +168,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
             if (string.IsNullOrEmpty(input))
             {
-                return defaultMinimumSpecialCharacters;
+                return Constants.MinimumSpecialPasswordCharactersDefault;
             }
 
             if (!int.TryParse(input, out var minimumSpecialCharacters))
@@ -179,8 +180,8 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
             if (minimumDigits + minimumSpecialCharacters > length)
             {
-                Console.WriteLine("The combined total of special characters and digits cannot exceed the " +
-                                  "password's length.");
+                Console.WriteLine(
+                    "The combined total of special characters and digits cannot exceed the password's length.");
 
                 continue;
             }
