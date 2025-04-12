@@ -42,6 +42,8 @@ public static class Program
         services.AddTransient<IPromptFactory, PromptFactory>();
         services.AddTransient<IConsoleClear, ConsoleClear>();
         services.AddTransient<IPasswordGeneratorService, PasswordGeneratorService>();
+
+        // Register application loop runner.
         services.AddTransient<PromptRunner>();
 
         // Register prompts.
