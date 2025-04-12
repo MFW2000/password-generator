@@ -37,13 +37,15 @@ public static class Program
     {
         var services = new ServiceCollection();
 
+        // Register pre-configured services using direct instance registration.
+        services.AddSingleton<IAssemblyVersionProvider>(new AssemblyVersionProvider(typeof(Program).Assembly));
+
         // Register services.
-        services.AddSingleton<IAssemblyVersionProvider>(_ => new AssemblyVersionProvider(typeof(Program).Assembly));
         services.AddTransient<IPromptFactory, PromptFactory>();
         services.AddTransient<IConsoleClear, ConsoleClear>();
         services.AddTransient<IPasswordGeneratorService, PasswordGeneratorService>();
 
-        // Register application loop runner.
+        // Register runner service to manage application loop.
         services.AddTransient<PromptRunner>();
 
         // Register prompts.
@@ -51,7 +53,7 @@ public static class Program
         services.AddTransient<GeneratePassword>();
         services.AddTransient<HashPassword>();
 
-        // Register external services.
+        // Register third-party services.
         services.InjectClipboard();
 
         return services.BuildServiceProvider();
