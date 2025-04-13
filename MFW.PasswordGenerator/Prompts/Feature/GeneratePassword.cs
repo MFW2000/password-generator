@@ -48,14 +48,42 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
             minimumSpecialCharacters,
             avoidAmbiguousCharacters);
 
-        var password = passwordGeneratorService.Generate(options);
+        string password;
 
-        clipboard.SetText(password);
+        try
+        {
+            password = passwordGeneratorService.Generate(options);
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception.Message);
+
+            return PromptType.MainMenu;
+        }
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
+
         Console.WriteLine($"New password: {password}");
-        Console.WriteLine("The password was saved to your clipboard.");
+
+        // TODO: Update tests
+        // TODO: Verify validation
+        // TODO: Provide dependencies
+
+        try
+        {
+            clipboard.SetText(password);
+
+            Console.WriteLine("The password was saved to your clipboard.");
+        }
+        catch (Exception)
+        {
+            Console.WriteLine(
+                "The password could not be saved to your clipboard, make sure you have the correct " +
+                "dependencies installed.");
+            Console.WriteLine();
+        }
+
         Console.WriteLine();
 
         ContinuePrompt();
