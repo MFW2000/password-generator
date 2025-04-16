@@ -10,5 +10,4 @@ public static class CommonText
     public const string TooltipOption = "Select an option:";
     public const string TooltipContinue = "Press any key to continue.";
     public const string InputPrompt = "> ";
-    public const string InputError = "Invalid option, try again.";
 }
