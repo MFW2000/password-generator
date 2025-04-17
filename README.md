@@ -30,7 +30,7 @@ To run the application, you need the following software for your operating syste
 - [.NET 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime)
 - [XSel](https://vergenet.net/~conrad/software/xsel/)
 
-Additionally, the provided file must be made runnable using the `chmod +x filename.sh` command.
+Additionally, the provided file must be made executable using the `chmod +x <filename>` command in the same directory.
 
 ## Development Requirements
 
