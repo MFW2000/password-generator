@@ -168,7 +168,7 @@ public class GeneratePasswordTests
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
         Assert.IsTrue(output.Contains(
-            $"The password length must be a digit between {Constants.MinimumPasswordLength} " +
+            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
             $"and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();
@@ -205,7 +205,7 @@ public class GeneratePasswordTests
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
         Assert.IsTrue(output.Contains(
-            $"The password length must be a digit between {Constants.MinimumPasswordLength} " +
+            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
             $"and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();
@@ -242,7 +242,7 @@ public class GeneratePasswordTests
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
         Assert.IsTrue(output.Contains(
-            $"The password length must be a digit between {Constants.MinimumPasswordLength} " +
+            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
             $"and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();

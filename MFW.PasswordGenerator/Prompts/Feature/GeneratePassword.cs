@@ -78,8 +78,6 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
         Console.WriteLine($"New password: {password}");
 
-        // TODO: Verify the word usage of digit in comparison to number
-
         try
         {
             clipboard.SetText(password);
@@ -123,7 +121,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
                 || length is < Constants.MinimumPasswordLength or > Constants.MaximumPasswordLength)
             {
                 Console.WriteLine(
-                    $"The password length must be a digit between {Constants.MinimumPasswordLength} " +
+                    $"The password length must be a number between {Constants.MinimumPasswordLength} " +
                     $"and {Constants.MaximumPasswordLength}.");
 
                 continue;
