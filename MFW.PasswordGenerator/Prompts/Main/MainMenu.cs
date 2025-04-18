@@ -35,7 +35,7 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
                 case "3":
                     return null;
                 default:
-                    Console.WriteLine(CommonText.InputError);
+                    Console.WriteLine("Please select a valid menu option number.");
                     break;
             }
         }

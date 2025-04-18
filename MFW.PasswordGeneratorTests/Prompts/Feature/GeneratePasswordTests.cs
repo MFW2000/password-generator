@@ -167,7 +167,9 @@ public class GeneratePasswordTests
 
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
-        Assert.IsTrue(output.Contains("Please enter a valid digit."));
+        Assert.IsTrue(output.Contains(
+            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
+            $"and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -202,7 +204,9 @@ public class GeneratePasswordTests
 
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
-        Assert.IsTrue(output.Contains("Please enter a valid length."));
+        Assert.IsTrue(output.Contains(
+            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
+            $"and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -237,7 +241,9 @@ public class GeneratePasswordTests
 
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
-        Assert.IsTrue(output.Contains("Please enter a valid length."));
+        Assert.IsTrue(output.Contains(
+            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
+            $"and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -335,7 +341,7 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains("Include uppercase characters (YES/no):"));
-        Assert.IsTrue(output.Contains("Invalid option, try again."));
+        Assert.IsTrue(output.Contains("Please enter 'yes' (y) or 'no' (n)."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -433,7 +439,7 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains("Include lowercase characters (YES/no):"));
-        Assert.IsTrue(output.Contains("Invalid option, try again."));
+        Assert.IsTrue(output.Contains("Please enter 'yes' (y) or 'no' (n)."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -468,7 +474,7 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum amount of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
+            $"Enter the minimum number of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -501,7 +507,7 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum amount of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
+            $"Enter the minimum number of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -533,8 +539,43 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum amount of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
-        Assert.IsTrue(output.Contains("Please enter a valid digit."));
+            $"Enter the minimum number of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
+        Assert.IsTrue(output.Contains(
+            "The minimum number of digits must be a non-negative number and cannot exceed the password length."));
+
+        _passwordGeneratorServiceMock.Verify();
+        _clipboardMock.Verify();
+    }
+
+    [TestMethod]
+    public void DisplayMainPrompt_PromptMinimumDigits_WithNegativeInput_ShouldDisplayError()
+    {
+        // Arrange
+        _passwordGeneratorServiceMock
+            .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
+            .Returns(It.IsAny<string>())
+            .Verifiable(Times.Once);
+
+        _clipboardMock
+            .Setup(x => x.SetText(It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
+        var consoleInput = new StringReader("\n\n\n-1\n");
+        var consoleOutput = new StringWriter();
+
+        Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
+
+        // Act
+        _sut.DisplayMainPrompt();
+
+        // Assert
+        var output = consoleOutput.ToString();
+
+        Assert.IsTrue(output.Contains(
+            $"Enter the minimum number of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
+        Assert.IsTrue(output.Contains(
+            "The minimum number of digits must be a non-negative number and cannot exceed the password length."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -569,8 +610,9 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum amount of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
-        Assert.IsTrue(output.Contains("The minimum amount of digits cannot exceed the length of the password."));
+            $"Enter the minimum number of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):"));
+        Assert.IsTrue(output.Contains(
+            "The minimum number of digits must be a non-negative number and cannot exceed the password length."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -605,7 +647,7 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum amount of special characters to be included " +
+            $"Enter the minimum number of special characters to be included " +
             $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
 
         _passwordGeneratorServiceMock.Verify();
@@ -639,7 +681,7 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum amount of special characters to be included " +
+            $"Enter the minimum number of special characters to be included " +
             $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
 
         _passwordGeneratorServiceMock.Verify();
@@ -708,9 +750,47 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum amount of special characters to be included " +
+            $"Enter the minimum number of special characters to be included " +
             $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
-        Assert.IsTrue(output.Contains("Please enter a valid digit."));
+        Assert.IsTrue(output.Contains(
+            "The minimum number of special characters must be a non-negative number and the combined total of " +
+            "special characters and digits cannot exceed the password's length."));
+
+        _passwordGeneratorServiceMock.Verify();
+        _clipboardMock.Verify();
+    }
+
+    [TestMethod]
+    public void DisplayMainPrompt_PromptMinimumSpecialCharacters_WithNegativeInput_ShouldDisplayError()
+    {
+        // Arrange
+        _passwordGeneratorServiceMock
+            .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
+            .Returns(It.IsAny<string>())
+            .Verifiable(Times.Once);
+
+        _clipboardMock
+            .Setup(x => x.SetText(It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
+        var consoleInput = new StringReader("\n\n\n\n-1\n");
+        var consoleOutput = new StringWriter();
+
+        Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
+
+        // Act
+        _sut.DisplayMainPrompt();
+
+        // Assert
+        var output = consoleOutput.ToString();
+
+        Assert.IsTrue(output.Contains(
+            $"Enter the minimum number of special characters to be included " +
+            $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
+        Assert.IsTrue(output.Contains(
+            "The minimum number of special characters must be a non-negative number and the combined total of " +
+            "special characters and digits cannot exceed the password's length."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -746,10 +826,11 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum amount of special characters to be included " +
+            $"Enter the minimum number of special characters to be included " +
             $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
         Assert.IsTrue(output.Contains(
-            "The combined total of special characters and digits cannot exceed the password's length."));
+            "The minimum number of special characters must be a non-negative number and the combined total of " +
+            "special characters and digits cannot exceed the password's length."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -847,7 +928,106 @@ public class GeneratePasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains("Avoid ambiguous characters (yes/NO):"));
-        Assert.IsTrue(output.Contains("Invalid option, try again."));
+        Assert.IsTrue(output.Contains("Please enter 'yes' (y) or 'no' (n)."));
+
+        _passwordGeneratorServiceMock.Verify();
+        _clipboardMock.Verify();
+    }
+
+    [TestMethod]
+    public void DisplayMainPrompt_WithInvalidConfiguration_ShouldDisplayError()
+    {
+        // Arrange
+        _passwordGeneratorServiceMock
+            .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
+            .Returns(It.IsAny<string>())
+            .Verifiable(Times.Never);
+
+        _clipboardMock
+            .Setup(x => x.SetText(It.IsAny<string>()))
+            .Verifiable(Times.Never);
+
+        var consoleInput = new StringReader("\nno\nno\n0\n0\n\n");
+        var consoleOutput = new StringWriter();
+
+        Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
+
+        // Act
+        _sut.DisplayMainPrompt();
+
+        // Assert
+        var output = consoleOutput.ToString();
+
+        Assert.IsTrue(output.Contains(
+            "Password options must include at least one of: uppercase letters, lowercase letters, digits, " +
+            "or special characters."));
+
+        _passwordGeneratorServiceMock.Verify();
+        _clipboardMock.Verify();
+    }
+
+    [TestMethod]
+    public void DisplayMainPrompt_PasswordGeneratorServiceThrowsException_ShouldDisplayError()
+    {
+        // Arrange
+        _passwordGeneratorServiceMock
+            .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
+            .Throws(new Exception("Boom!"));
+
+        _clipboardMock
+            .Setup(x => x.SetText(It.IsAny<string>()))
+            .Verifiable(Times.Never);
+
+        var consoleInput = new StringReader("\n\n\n\n\n\n\n");
+        var consoleOutput = new StringWriter();
+
+        Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
+
+        // Act
+        _sut.DisplayMainPrompt();
+
+        // Assert
+        var output = consoleOutput.ToString();
+
+        Assert.IsTrue(output.Contains("An error occurred while generating the password."));
+        Assert.IsTrue(output.Contains("Press any key to continue."));
+
+        _passwordGeneratorServiceMock.Verify();
+        _clipboardMock.Verify();
+    }
+
+    [TestMethod]
+    public void DisplayMainPrompt_ClipboardServiceThrowsException_ShouldDisplayError()
+    {
+        // Arrange
+        var exception = new Exception();
+
+        _passwordGeneratorServiceMock
+            .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
+            .Returns(It.IsAny<string>())
+            .Verifiable(Times.Once);
+
+        _clipboardMock
+            .Setup(x => x.SetText(It.IsAny<string>()))
+            .Throws(exception);
+
+        var consoleInput = new StringReader("\n\n\n\n\n\n\n");
+        var consoleOutput = new StringWriter();
+
+        Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
+
+        // Act
+        _sut.DisplayMainPrompt();
+
+        // Assert
+        var output = consoleOutput.ToString();
+
+        Assert.IsTrue(output.Contains(
+            "The password could not be saved to your clipboard, make sure you have the correct " +
+            "dependencies installed."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();

@@ -48,14 +48,49 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
             minimumSpecialCharacters,
             avoidAmbiguousCharacters);
 
-        var password = passwordGeneratorService.Generate(options);
+        if (!IsValidPasswordConfig(includeUppercase, includeLowercase, minimumDigits, minimumSpecialCharacters))
+        {
+            Console.WriteLine(
+                "Password options must include at least one of: uppercase letters, lowercase letters, digits, " +
+                "or special characters.");
+            Console.ReadLine();
 
-        clipboard.SetText(password);
+            return PromptType.MainMenu;
+        }
+
+        string password;
+
+        try
+        {
+            password = passwordGeneratorService.Generate(options);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("An error occurred while generating the password.");
+
+            ContinuePrompt();
+
+            return PromptType.MainMenu;
+        }
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
+
         Console.WriteLine($"New password: {password}");
-        Console.WriteLine("The password was saved to your clipboard.");
+
+        try
+        {
+            clipboard.SetText(password);
+
+            Console.WriteLine("The password was saved to your clipboard.");
+        }
+        catch (Exception)
+        {
+            Console.WriteLine(
+                "The password could not be saved to your clipboard, make sure you have the correct " +
+                "dependencies installed.");
+        }
+
         Console.WriteLine();
 
         ContinuePrompt();
@@ -82,16 +117,12 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
                 return Constants.PasswordLengthDefault;
             }
 
-            if (!int.TryParse(input, out var length))
+            if (!int.TryParse(input, out var length)
+                || length is < Constants.MinimumPasswordLength or > Constants.MaximumPasswordLength)
             {
-                Console.WriteLine("Please enter a valid digit.");
-
-                continue;
-            }
-
-            if (length is < Constants.MinimumPasswordLength or > Constants.MaximumPasswordLength)
-            {
-                Console.WriteLine("Please enter a valid length.");
+                Console.WriteLine(
+                    $"The password length must be a number between {Constants.MinimumPasswordLength} " +
+                    $"and {Constants.MaximumPasswordLength}.");
 
                 continue;
             }
@@ -101,14 +132,14 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
     }
 
     /// <summary>
-    /// Prompts the user to enter the minimum valid amount of digits or nothing to set the default amount of digits.
+    /// Prompts the user to enter the minimum valid number of digits or nothing to set the default number of digits.
     /// </summary>
     /// <param name="length">The password length to validate the result.</param>
-    /// <returns>The specified amount of digits or the default amount when the input is empty.</returns>
+    /// <returns>The specified number of digits or the default amount when the input is empty.</returns>
     private static int PromptMinimumDigits(int length)
     {
         Console.WriteLine(
-            $"Enter the minimum amount of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):");
+            $"Enter the minimum number of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):");
 
         while (true)
         {
@@ -121,16 +152,11 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
                 return Constants.MinimumPasswordDigitsDefault;
             }
 
-            if (!int.TryParse(input, out var minimumDigits))
+            if (!int.TryParse(input, out var minimumDigits) || minimumDigits < 0 || minimumDigits > length)
             {
-                Console.WriteLine("Please enter a valid digit.");
-
-                continue;
-            }
-
-            if (minimumDigits > length)
-            {
-                Console.WriteLine("The minimum amount of digits cannot exceed the length of the password.");
+                Console.WriteLine(
+                    "The minimum number of digits must be a non-negative number and cannot " +
+                    "exceed the password length.");
 
                 continue;
             }
@@ -140,12 +166,12 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
     }
 
     /// <summary>
-    /// Prompts the user to enter the minimum valid amount of special characters or nothing to set the default
-    /// amount of special characters.
+    /// Prompts the user to enter the minimum valid number of special characters or nothing to set the default
+    /// number of special characters.
     /// </summary>
     /// <param name="length">The password length to validate the result.</param>
-    /// <param name="minimumDigits">The minimum amount of digits to validate the result.</param>
-    /// <returns>The specified amount of special characters or the default amount when the input is empty.</returns>
+    /// <param name="minimumDigits">The minimum number of digits to validate the result.</param>
+    /// <returns>The specified number of special characters or the default amount when the input is empty.</returns>
     private static int PromptMinimumSpecialCharacters(int length, int minimumDigits)
     {
         if (length == minimumDigits)
@@ -157,7 +183,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         }
 
         Console.WriteLine(
-            $"Enter the minimum amount of special characters to be included " +
+            $"Enter the minimum number of special characters to be included " +
             $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):");
 
         while (true)
@@ -171,22 +197,38 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
                 return Constants.MinimumSpecialPasswordCharactersDefault;
             }
 
-            if (!int.TryParse(input, out var minimumSpecialCharacters))
-            {
-                Console.WriteLine("Please enter a valid digit.");
-
-                continue;
-            }
-
-            if (minimumDigits + minimumSpecialCharacters > length)
+            if (!int.TryParse(input, out var minimumSpecialCharacters)
+                || minimumSpecialCharacters < 0
+                || minimumDigits + minimumSpecialCharacters > length)
             {
                 Console.WriteLine(
-                    "The combined total of special characters and digits cannot exceed the password's length.");
+                    "The minimum number of special characters must be a non-negative number and the combined " +
+                    "total of special characters and digits cannot exceed the password's length.");
 
                 continue;
             }
 
             return minimumSpecialCharacters;
         }
+    }
+
+    /// <summary>
+    /// Determines whether the specified password configuration is valid.
+    /// A password configuration is valid when at least one of the properties is valid.
+    /// </summary>
+    /// <param name="includeUppercase">Whether uppercase letters are included in the password.</param>
+    /// <param name="includeLowercase">Whether lowercase letters are included in the password.</param>
+    /// <param name="minimumDigits">The minimum number of digits to include in the password.</param>
+    /// <param name="minimumSpecialCharacters">
+    /// The minimum number of special characters to include in the password.
+    /// </param>
+    /// <returns>True if the password configuration is valid, false otherwise.</returns>
+    private static bool IsValidPasswordConfig(
+        bool includeUppercase,
+        bool includeLowercase,
+        int minimumDigits,
+        int minimumSpecialCharacters)
+    {
+        return includeUppercase || includeLowercase || minimumDigits != 0 || minimumSpecialCharacters != 0;
     }
 }

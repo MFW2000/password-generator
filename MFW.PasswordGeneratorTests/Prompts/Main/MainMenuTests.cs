@@ -126,7 +126,7 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("Invalid option, try again."));
+        Assert.IsTrue(output.Contains("Please select a valid menu option number."));
         Assert.IsNotNull(result);
 
         _assemblyVersionProviderMock.Verify();

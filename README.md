@@ -17,8 +17,37 @@ Password Generator has the following features:
 - Hash the newly generated password using standard algorithms
 - Hash an existing password using standard algorithms
 
-## Requirements
+## Running Requirements
 
-In order to start development, you need the following software:
+To run the application, you need the following software for your operating system:
 
-- [.NET](https://dotnet.microsoft.com/en-us/) 8.0
+### Windows
+
+- [.NET 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime)
+
+### Linux
+
+- [.NET 8.0 Runtime](https://dotnet.microsoft.com/en-us/download/dotnet/8.0/runtime)
+- [XSel](https://vergenet.net/~conrad/software/xsel/)
+
+Additionally, the provided file must be made executable using the `chmod +x <filename>` command in the same directory.
+
+## Development Requirements
+
+To start development, you need the following software:
+
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+
+## Recommended IDE Setup
+
+It is highly recommended to use [JetBrains Rider](https://www.jetbrains.com/rider/) when developing this application.
+
+### Extensions
+
+This project does not use any notable extensions for JetBrains Rider.
+
+## Documentation
+
+Useful documentation and links for the project:
+
+- [Microsoft Documentation](https://learn.microsoft.com/en-us/)
