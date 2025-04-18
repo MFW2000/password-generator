@@ -973,7 +973,7 @@ public class GenerateCustomPasswordTests
         // Arrange
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
-            .Throws(new Exception("Boom!"));
+            .Throws(new Exception());
 
         _clipboardMock
             .Setup(x => x.SetText(It.IsAny<string>()))
@@ -1002,8 +1002,6 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_ClipboardServiceThrowsException_ShouldDisplayError()
     {
         // Arrange
-        var exception = new Exception();
-
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -1011,7 +1009,7 @@ public class GenerateCustomPasswordTests
 
         _clipboardMock
             .Setup(x => x.SetText(It.IsAny<string>()))
-            .Throws(exception);
+            .Throws(new Exception());
 
         var consoleInput = new StringReader("\n\n\n\n\n\n\n");
         var consoleOutput = new StringWriter();

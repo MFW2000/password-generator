@@ -16,11 +16,12 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         Console.WriteLine($"=== {CommonText.AppTitle} v{GetAssemblyVersionString()} ===");
         Console.WriteLine(CommonText.AppSubTitle);
         Console.WriteLine();
-        Console.WriteLine(CommonText.TooltipOption);
+        Console.WriteLine("--- Main Menu ---");
         Console.WriteLine($"1. {CommonText.GenerateDefaultPasswordTitle}");
         Console.WriteLine($"2. {CommonText.GenerateCustomPasswordTitle}");
         Console.WriteLine($"3. {CommonText.HashPasswordTitle}");
         Console.WriteLine("4. Exit");
+        Console.WriteLine(CommonText.TooltipOption);
 
         while (true)
         {

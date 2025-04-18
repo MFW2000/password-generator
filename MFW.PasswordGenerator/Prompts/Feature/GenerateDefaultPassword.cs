@@ -14,7 +14,8 @@ public class GenerateDefaultPassword(IPasswordGeneratorService passwordGenerator
     public override PromptType? DisplayMainPrompt()
     {
         Console.WriteLine($"=== {CommonText.GenerateDefaultPasswordTitle} ===");
-        Console.WriteLine("Generate a new password with default secure settings");
+        Console.WriteLine("Generate a new password with default secure settings.");
+        Console.WriteLine();
 
         var options = new PasswordGeneratorOptions(
             Constants.PasswordLengthDefault,
@@ -23,6 +24,42 @@ public class GenerateDefaultPassword(IPasswordGeneratorService passwordGenerator
             Constants.MinimumPasswordDigitsDefault,
             Constants.MinimumSpecialPasswordCharactersDefault,
             Constants.AvoidAmbiguousCharactersInPasswordDefault);
+
+        string password;
+
+        try
+        {
+            password = passwordGeneratorService.Generate(options);
+        }
+        catch (Exception)
+        {
+            Console.WriteLine("An error occurred while generating the password.");
+
+            ContinuePrompt();
+
+            return PromptType.MainMenu;
+        }
+
+        Console.WriteLine("Generating password...");
+        Console.WriteLine();
+        Console.WriteLine($"New password: {password}");
+
+        try
+        {
+            clipboard.SetText(password);
+
+            Console.WriteLine("The password was saved to your clipboard.");
+        }
+        catch (Exception)
+        {
+            Console.WriteLine(
+                "The password could not be saved to your clipboard, make sure you have the correct " +
+                "dependencies installed.");
+        }
+
+        Console.WriteLine();
+
+        ContinuePrompt();
 
         return PromptType.MainMenu;
     }
