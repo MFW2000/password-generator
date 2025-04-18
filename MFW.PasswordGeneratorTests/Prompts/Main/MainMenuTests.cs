@@ -46,9 +46,10 @@ public class MainMenuTests
         Assert.IsTrue(output.Contains($"=== Password Generator v{version.ToString(3)}"));
         Assert.IsTrue(output.Contains("Generate and/or hash passwords."));
         Assert.IsTrue(output.Contains("Select an option:"));
-        Assert.IsTrue(output.Contains("1. Generate password"));
-        Assert.IsTrue(output.Contains("2. Hash password"));
-        Assert.IsTrue(output.Contains("3. Exit"));
+        Assert.IsTrue(output.Contains("1. Generate a password with default secure settings"));
+        Assert.IsTrue(output.Contains("2. Generate a customized password"));
+        Assert.IsTrue(output.Contains("3. Hash password"));
+        Assert.IsTrue(output.Contains("4. Exit"));
 
         _assemblyVersionProviderMock.Verify();
     }
@@ -64,7 +65,7 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("1\n");
+        var consoleInput = new StringReader("2\n");
 
         Console.SetIn(consoleInput);
 
@@ -72,7 +73,7 @@ public class MainMenuTests
         var result = _sut.DisplayMainPrompt();
 
         // Assert
-        Assert.AreEqual(PromptType.GeneratePassword, result);
+        Assert.AreEqual(PromptType.GenerateCustomPassword, result);
 
         _assemblyVersionProviderMock.Verify();
     }
@@ -88,7 +89,7 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("3\n");
+        var consoleInput = new StringReader("4\n");
 
         Console.SetIn(consoleInput);
 

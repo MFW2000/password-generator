@@ -8,12 +8,12 @@ using TextCopy;
 namespace MFW.PasswordGeneratorTests.Prompts.Feature;
 
 [TestClass]
-public class GeneratePasswordTests
+public class GenerateCustomPasswordTests
 {
     private Mock<IPasswordGeneratorService> _passwordGeneratorServiceMock = null!;
     private Mock<IClipboard> _clipboardMock = null!;
 
-    private GeneratePassword _sut = null!;
+    private GenerateCustomPassword _sut = null!;
 
     [TestInitialize]
     public void Initialize()
@@ -21,7 +21,7 @@ public class GeneratePasswordTests
         _passwordGeneratorServiceMock = new Mock<IPasswordGeneratorService>(MockBehavior.Strict);
         _clipboardMock = new Mock<IClipboard>(MockBehavior.Strict);
 
-        _sut = new GeneratePassword(_passwordGeneratorServiceMock.Object, _clipboardMock.Object);
+        _sut = new GenerateCustomPassword(_passwordGeneratorServiceMock.Object, _clipboardMock.Object);
     }
 
     [TestMethod]

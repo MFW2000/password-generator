@@ -16,9 +16,10 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         Console.WriteLine(CommonText.AppSubTitle);
         Console.WriteLine();
         Console.WriteLine(CommonText.TooltipOption);
-        Console.WriteLine("1. Generate password");
-        Console.WriteLine("2. Hash password");
-        Console.WriteLine("3. Exit");
+        Console.WriteLine("1. Generate a password with default secure settings");
+        Console.WriteLine("2. Generate a customized password");
+        Console.WriteLine("3. Hash password");
+        Console.WriteLine("4. Exit");
 
         while (true)
         {
@@ -29,10 +30,12 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
             switch (input.ToLower())
             {
                 case "1":
-                    return PromptType.GeneratePassword;
+                    return PromptType.GenerateDefaultPassword;
                 case "2":
-                    return PromptType.HashPassword;
+                    return PromptType.GenerateCustomPassword;
                 case "3":
+                    return PromptType.HashPassword;
+                case "4":
                     return null;
                 default:
                     Console.WriteLine("Please select a valid menu option number.");

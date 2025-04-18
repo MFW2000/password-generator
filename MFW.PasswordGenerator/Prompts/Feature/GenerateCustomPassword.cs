@@ -6,9 +6,9 @@ using TextCopy;
 namespace MFW.PasswordGenerator.Prompts.Feature;
 
 /// <summary>
-/// Responsible for assisting the user in generating a new password.
+/// Responsible for assisting the user in generating a new customized password.
 /// </summary>
-public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService, IClipboard clipboard) : Prompt
+public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorService, IClipboard clipboard) : Prompt
 {
     /// <inheritdoc/>
     public override PromptType? DisplayMainPrompt()
