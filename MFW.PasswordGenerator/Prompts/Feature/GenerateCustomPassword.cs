@@ -13,7 +13,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
     /// <inheritdoc/>
     public override PromptType? DisplayMainPrompt()
     {
-        Console.WriteLine("=== Generate Password ===");
+        Console.WriteLine($"=== {CommonText.GenerateCustomPasswordTitle} ===");
         Console.WriteLine("Generate a new password with the preferences of your choice.");
         Console.WriteLine();
         Console.WriteLine("--- Constraints ---");
@@ -75,7 +75,6 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
-
         Console.WriteLine($"New password: {password}");
 
         try

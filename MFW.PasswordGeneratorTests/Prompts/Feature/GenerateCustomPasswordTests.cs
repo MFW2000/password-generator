@@ -51,7 +51,7 @@ public class GenerateCustomPasswordTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("=== Generate Password ==="));
+        Assert.IsTrue(output.Contains($"=== {CommonText.GenerateCustomPasswordTitle} ==="));
         Assert.IsTrue(output.Contains("Generate a new password with the preferences of your choice."));
         Assert.IsTrue(output.Contains("--- Constraints ---"));
         Assert.IsTrue(output.Contains("The password must comply with the following constraints:"));
@@ -66,7 +66,7 @@ public class GenerateCustomPasswordTests
         Assert.IsTrue(output.Contains("Generating password..."));
         Assert.IsTrue(output.Contains($"New password: {password}"));
         Assert.IsTrue(output.Contains("The password was saved to your clipboard."));
-        Assert.IsTrue(output.Contains("Press any key to continue."));
+        Assert.IsTrue(output.Contains(CommonText.TooltipContinue));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();

@@ -16,9 +16,9 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         Console.WriteLine(CommonText.AppSubTitle);
         Console.WriteLine();
         Console.WriteLine(CommonText.TooltipOption);
-        Console.WriteLine("1. Generate a password with default secure settings");
-        Console.WriteLine("2. Generate a customized password");
-        Console.WriteLine("3. Hash password");
+        Console.WriteLine($"1. {CommonText.GenerateDefaultPasswordTitle}");
+        Console.WriteLine($"2. {CommonText.GenerateCustomPasswordTitle}");
+        Console.WriteLine($"3. {CommonText.HashPasswordTitle}");
         Console.WriteLine("4. Exit");
 
         while (true)

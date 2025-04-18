@@ -1,4 +1,5 @@
-﻿using MFW.PasswordGenerator.Enumerations;
+﻿using MFW.PasswordGenerator;
+using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Prompts.Main;
 using MFW.PasswordGenerator.Providers.Interfaces;
 using Moq;
@@ -43,12 +44,12 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains($"=== Password Generator v{version.ToString(3)}"));
-        Assert.IsTrue(output.Contains("Generate and/or hash passwords."));
+        Assert.IsTrue(output.Contains($"=== {CommonText.AppTitle} v{version.ToString(3)}"));
+        Assert.IsTrue(output.Contains(CommonText.AppSubTitle));
         Assert.IsTrue(output.Contains("Select an option:"));
-        Assert.IsTrue(output.Contains("1. Generate a password with default secure settings"));
-        Assert.IsTrue(output.Contains("2. Generate a customized password"));
-        Assert.IsTrue(output.Contains("3. Hash password"));
+        Assert.IsTrue(output.Contains($"1. {CommonText.GenerateDefaultPasswordTitle}"));
+        Assert.IsTrue(output.Contains($"2. {CommonText.GenerateCustomPasswordTitle}"));
+        Assert.IsTrue(output.Contains($"3. {CommonText.HashPasswordTitle}"));
         Assert.IsTrue(output.Contains("4. Exit"));
 
         _assemblyVersionProviderMock.Verify();
