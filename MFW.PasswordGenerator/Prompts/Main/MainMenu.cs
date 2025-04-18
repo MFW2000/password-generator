@@ -1,4 +1,5 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
+using MFW.PasswordGenerator.Helpers;
 using MFW.PasswordGenerator.Providers.Interfaces;
 
 namespace MFW.PasswordGenerator.Prompts.Main;
@@ -25,7 +26,7 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             switch (input.ToLower())
             {

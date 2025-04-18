@@ -1,4 +1,5 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
+using MFW.PasswordGenerator.Helpers;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
 using TextCopy;
@@ -109,7 +110,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             if (string.IsNullOrEmpty(input))
             {
@@ -144,7 +145,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             if (string.IsNullOrEmpty(input))
             {
@@ -189,7 +190,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             if (string.IsNullOrEmpty(input))
             {
