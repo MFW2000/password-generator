@@ -64,11 +64,11 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         {
             password = passwordGeneratorService.Generate(options);
         }
-        catch (Exception exception)
+        catch (Exception)
         {
             Console.WriteLine("An error occurred while generating the password.");
-            Console.WriteLine(exception.Message);
-            Console.ReadLine();
+
+            ContinuePrompt();
 
             return PromptType.MainMenu;
         }
@@ -152,7 +152,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
                 return Constants.MinimumPasswordDigitsDefault;
             }
 
-            if (!int.TryParse(input, out var minimumDigits) || minimumDigits > length)
+            if (!int.TryParse(input, out var minimumDigits) || minimumDigits < 0 || minimumDigits > length)
             {
                 Console.WriteLine(
                     "The minimum number of digits must be a non-negative number and cannot " +
@@ -198,6 +198,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
             }
 
             if (!int.TryParse(input, out var minimumSpecialCharacters)
+                || minimumSpecialCharacters < 0
                 || minimumDigits + minimumSpecialCharacters > length)
             {
                 Console.WriteLine(
