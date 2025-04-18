@@ -50,7 +50,8 @@ public static class Program
 
         // Register prompts.
         services.AddTransient<MainMenu>();
-        services.AddTransient<GeneratePassword>();
+        services.AddTransient<GenerateDefaultPassword>();
+        services.AddTransient<GenerateCustomPassword>();
         services.AddTransient<HashPassword>();
 
         // Register third-party services.

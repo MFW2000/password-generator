@@ -47,7 +47,8 @@ public class PromptRunner(IPromptFactory promptFactory, IConsoleClear consoleCle
         return promptType switch
         {
             PromptType.MainMenu => promptFactory.CreatePrompt<MainMenu>(),
-            PromptType.GeneratePassword => promptFactory.CreatePrompt<GeneratePassword>(),
+            PromptType.GenerateDefaultPassword => promptFactory.CreatePrompt<GenerateDefaultPassword>(),
+            PromptType.GenerateCustomPassword => promptFactory.CreatePrompt<GenerateCustomPassword>(),
             PromptType.HashPassword => promptFactory.CreatePrompt<HashPassword>(),
             _ => null
         };

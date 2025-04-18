@@ -1,4 +1,5 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
+using MFW.PasswordGenerator.Helpers;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
 using TextCopy;
@@ -6,14 +7,14 @@ using TextCopy;
 namespace MFW.PasswordGenerator.Prompts.Feature;
 
 /// <summary>
-/// Responsible for assisting the user in generating a new password.
+/// Responsible for assisting the user in generating a new customized password.
 /// </summary>
-public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService, IClipboard clipboard) : Prompt
+public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorService, IClipboard clipboard) : Prompt
 {
     /// <inheritdoc/>
     public override PromptType? DisplayMainPrompt()
     {
-        Console.WriteLine("=== Generate Password ===");
+        Console.WriteLine($"=== {CommonText.GenerateCustomPasswordTitle} ===");
         Console.WriteLine("Generate a new password with the preferences of your choice.");
         Console.WriteLine();
         Console.WriteLine("--- Constraints ---");
@@ -75,7 +76,6 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
 
         Console.WriteLine("Generating password...");
         Console.WriteLine();
-
         Console.WriteLine($"New password: {password}");
 
         try
@@ -110,7 +110,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             if (string.IsNullOrEmpty(input))
             {
@@ -145,7 +145,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             if (string.IsNullOrEmpty(input))
             {
@@ -190,7 +190,7 @@ public class GeneratePassword(IPasswordGeneratorService passwordGeneratorService
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             if (string.IsNullOrEmpty(input))
             {
