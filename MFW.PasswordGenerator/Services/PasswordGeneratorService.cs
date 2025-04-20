@@ -15,7 +15,9 @@ public class PasswordGeneratorService : IPasswordGeneratorService
     {
         if (options.Length is < Constants.MinimumPasswordLength or > Constants.MaximumPasswordLength)
         {
-            throw new PasswordGeneratorException("Password length must be between 5 and 128 characters.");
+            throw new PasswordGeneratorException(
+                $"Password length must be between {Constants.MinimumPasswordLength} and " +
+                $"{Constants.MaximumPasswordLength} characters.");
         }
 
         if (options.MinimumDigits < 0)
