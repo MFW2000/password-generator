@@ -1,4 +1,5 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
+using MFW.PasswordGenerator.Helpers;
 
 namespace MFW.PasswordGenerator.Prompts;
 
@@ -41,7 +42,7 @@ public abstract class Prompt
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             if (string.IsNullOrEmpty(input) && defaultAnswer.HasValue)
             {

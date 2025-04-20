@@ -1,4 +1,5 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
+using MFW.PasswordGenerator.Helpers;
 using MFW.PasswordGenerator.Providers.Interfaces;
 
 namespace MFW.PasswordGenerator.Prompts.Main;
@@ -15,24 +16,28 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         Console.WriteLine($"=== {CommonText.AppTitle} v{GetAssemblyVersionString()} ===");
         Console.WriteLine(CommonText.AppSubTitle);
         Console.WriteLine();
+        Console.WriteLine("--- Main Menu ---");
+        Console.WriteLine($"1. {CommonText.GenerateDefaultPasswordTitle}");
+        Console.WriteLine($"2. {CommonText.GenerateCustomPasswordTitle}");
+        Console.WriteLine($"3. {CommonText.HashPasswordTitle}");
+        Console.WriteLine("4. Exit");
         Console.WriteLine(CommonText.TooltipOption);
-        Console.WriteLine("1. Generate password");
-        Console.WriteLine("2. Hash password");
-        Console.WriteLine("3. Exit");
 
         while (true)
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = Console.ReadLine() ?? string.Empty;
+            var input = PromptHelpers.ReadTrimmedLine();
 
             switch (input.ToLower())
             {
                 case "1":
-                    return PromptType.GeneratePassword;
+                    return PromptType.GenerateDefaultPassword;
                 case "2":
-                    return PromptType.HashPassword;
+                    return PromptType.GenerateCustomPassword;
                 case "3":
+                    return PromptType.HashPassword;
+                case "4":
                     return null;
                 default:
                     Console.WriteLine("Please select a valid menu option number.");

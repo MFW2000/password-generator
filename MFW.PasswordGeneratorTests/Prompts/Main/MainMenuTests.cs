@@ -1,4 +1,5 @@
-﻿using MFW.PasswordGenerator.Enumerations;
+﻿using MFW.PasswordGenerator;
+using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Prompts.Main;
 using MFW.PasswordGenerator.Providers.Interfaces;
 using Moq;
@@ -43,12 +44,14 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains($"=== Password Generator v{version.ToString(3)}"));
-        Assert.IsTrue(output.Contains("Generate and/or hash passwords."));
-        Assert.IsTrue(output.Contains("Select an option:"));
-        Assert.IsTrue(output.Contains("1. Generate password"));
-        Assert.IsTrue(output.Contains("2. Hash password"));
-        Assert.IsTrue(output.Contains("3. Exit"));
+        Assert.IsTrue(output.Contains($"=== {CommonText.AppTitle} v{version.ToString(3)}"));
+        Assert.IsTrue(output.Contains(CommonText.AppSubTitle));
+        Assert.IsTrue(output.Contains("--- Main Menu ---"));
+        Assert.IsTrue(output.Contains($"1. {CommonText.GenerateDefaultPasswordTitle}"));
+        Assert.IsTrue(output.Contains($"2. {CommonText.GenerateCustomPasswordTitle}"));
+        Assert.IsTrue(output.Contains($"3. {CommonText.HashPasswordTitle}"));
+        Assert.IsTrue(output.Contains("4. Exit"));
+        Assert.IsTrue(output.Contains(CommonText.TooltipOption));
 
         _assemblyVersionProviderMock.Verify();
     }
@@ -64,7 +67,7 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("1\n");
+        var consoleInput = new StringReader("2\n");
 
         Console.SetIn(consoleInput);
 
@@ -72,7 +75,7 @@ public class MainMenuTests
         var result = _sut.DisplayMainPrompt();
 
         // Assert
-        Assert.AreEqual(PromptType.GeneratePassword, result);
+        Assert.AreEqual(PromptType.GenerateCustomPassword, result);
 
         _assemblyVersionProviderMock.Verify();
     }
@@ -88,7 +91,7 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("3\n");
+        var consoleInput = new StringReader("4\n");
 
         Console.SetIn(consoleInput);
 
@@ -128,6 +131,30 @@ public class MainMenuTests
 
         Assert.IsTrue(output.Contains("Please select a valid menu option number."));
         Assert.IsNotNull(result);
+
+        _assemblyVersionProviderMock.Verify();
+    }
+
+    [TestMethod]
+    public void DisplayMainPrompt_ShouldIgnoreExtraWhitespace_ForValidInput()
+    {
+        // Arrange
+        var version = new Version(1, 2, 3);
+
+        _assemblyVersionProviderMock
+            .Setup(x => x.GetVersion())
+            .Returns(version)
+            .Verifiable(Times.Once);
+
+        var consoleInput = new StringReader("  2  \n");
+
+        Console.SetIn(consoleInput);
+
+        // Act
+        var result = _sut.DisplayMainPrompt();
+
+        // Assert
+        Assert.AreEqual(PromptType.GenerateCustomPassword, result);
 
         _assemblyVersionProviderMock.Verify();
     }

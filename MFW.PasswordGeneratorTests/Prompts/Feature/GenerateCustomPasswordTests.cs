@@ -8,12 +8,12 @@ using TextCopy;
 namespace MFW.PasswordGeneratorTests.Prompts.Feature;
 
 [TestClass]
-public class GeneratePasswordTests
+public class GenerateCustomPasswordTests
 {
     private Mock<IPasswordGeneratorService> _passwordGeneratorServiceMock = null!;
     private Mock<IClipboard> _clipboardMock = null!;
 
-    private GeneratePassword _sut = null!;
+    private GenerateCustomPassword _sut = null!;
 
     [TestInitialize]
     public void Initialize()
@@ -21,7 +21,7 @@ public class GeneratePasswordTests
         _passwordGeneratorServiceMock = new Mock<IPasswordGeneratorService>(MockBehavior.Strict);
         _clipboardMock = new Mock<IClipboard>(MockBehavior.Strict);
 
-        _sut = new GeneratePassword(_passwordGeneratorServiceMock.Object, _clipboardMock.Object);
+        _sut = new GenerateCustomPassword(_passwordGeneratorServiceMock.Object, _clipboardMock.Object);
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public class GeneratePasswordTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("=== Generate Password ==="));
+        Assert.IsTrue(output.Contains($"=== {CommonText.GenerateCustomPasswordTitle} ==="));
         Assert.IsTrue(output.Contains("Generate a new password with the preferences of your choice."));
         Assert.IsTrue(output.Contains("--- Constraints ---"));
         Assert.IsTrue(output.Contains("The password must comply with the following constraints:"));
@@ -66,7 +66,7 @@ public class GeneratePasswordTests
         Assert.IsTrue(output.Contains("Generating password..."));
         Assert.IsTrue(output.Contains($"New password: {password}"));
         Assert.IsTrue(output.Contains("The password was saved to your clipboard."));
-        Assert.IsTrue(output.Contains("Press any key to continue."));
+        Assert.IsTrue(output.Contains(CommonText.TooltipContinue));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -973,7 +973,7 @@ public class GeneratePasswordTests
         // Arrange
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
-            .Throws(new Exception("Boom!"));
+            .Throws(new Exception());
 
         _clipboardMock
             .Setup(x => x.SetText(It.IsAny<string>()))
@@ -1002,8 +1002,6 @@ public class GeneratePasswordTests
     public void DisplayMainPrompt_ClipboardServiceThrowsException_ShouldDisplayError()
     {
         // Arrange
-        var exception = new Exception();
-
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -1011,7 +1009,7 @@ public class GeneratePasswordTests
 
         _clipboardMock
             .Setup(x => x.SetText(It.IsAny<string>()))
-            .Throws(exception);
+            .Throws(new Exception());
 
         var consoleInput = new StringReader("\n\n\n\n\n\n\n");
         var consoleOutput = new StringWriter();
