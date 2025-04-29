@@ -134,28 +134,4 @@ public class MainMenuTests
 
         _assemblyVersionProviderMock.Verify();
     }
-
-    [TestMethod]
-    public void DisplayMainPrompt_ShouldIgnoreExtraWhitespace_ForValidInput()
-    {
-        // Arrange
-        var version = new Version(1, 2, 3);
-
-        _assemblyVersionProviderMock
-            .Setup(x => x.GetVersion())
-            .Returns(version)
-            .Verifiable(Times.Once);
-
-        var consoleInput = new StringReader("  2  \n");
-
-        Console.SetIn(consoleInput);
-
-        // Act
-        var result = _sut.DisplayMainPrompt();
-
-        // Assert
-        Assert.AreEqual(PromptType.GenerateCustomPassword, result);
-
-        _assemblyVersionProviderMock.Verify();
-    }
 }
