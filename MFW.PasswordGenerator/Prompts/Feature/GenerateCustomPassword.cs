@@ -110,7 +110,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelpers.ReadString();
+            var input = PromptHelper.ReadString();
 
             if (string.IsNullOrEmpty(input))
             {
@@ -145,7 +145,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelpers.ReadString();
+            var input = PromptHelper.ReadString();
 
             if (string.IsNullOrEmpty(input))
             {
@@ -190,7 +190,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelpers.ReadString();
+            var input = PromptHelper.ReadString();
 
             if (string.IsNullOrEmpty(input))
             {

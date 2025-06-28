@@ -5,7 +5,7 @@ namespace MFW.PasswordGenerator.Helpers;
 /// <summary>
 /// Provides helper methods for handling console input and other prompt-related functionalities.
 /// </summary>
-public static class PromptHelpers
+public static class PromptHelper
 {
     public static string ReadString(bool allowEmpty = false, bool trim = true, int? maxLength = null)
     {

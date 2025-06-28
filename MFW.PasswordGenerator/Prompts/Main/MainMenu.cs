@@ -27,7 +27,7 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelpers.ReadString();
+            var input = PromptHelper.ReadString();
 
             switch (input.ToLower())
             {
