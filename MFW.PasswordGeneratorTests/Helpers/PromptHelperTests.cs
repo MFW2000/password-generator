@@ -101,4 +101,86 @@ public class PromptHelperTests
         // Act & Assert
         Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => PromptHelper.ReadString(maxLength: maxLength));
     }
+
+    [TestMethod]
+    public void ReadInt_WithNoIntInput_ThrowsFormatException()
+    {
+        // Arrange
+        const string inputString = "not an integer";
+
+        var consoleInput = new StringReader($"{inputString}\n");
+
+        Console.SetIn(consoleInput);
+
+        // Act & Assert
+        Assert.ThrowsExactly<FormatException>(() => PromptHelper.ReadInt());
+    }
+
+    [TestMethod]
+    public void ReadInt_WithinMinRange_ReturnsInt()
+    {
+        // Arrange
+        const string inputString = "100";
+        const int expectedInt = 100;
+        const int minRange = 100;
+
+        var consoleInput = new StringReader($"{inputString}\n");
+
+        Console.SetIn(consoleInput);
+
+        // Act
+        var result = PromptHelper.ReadInt(minRange: minRange);
+
+        // Assert
+        Assert.AreEqual(expectedInt, result);
+    }
+
+    [TestMethod]
+    public void ReadInt_OutOfMinRange_ThrowsArgumentOutOfRangeException()
+    {
+        // Arrange
+        const string inputString = "99";
+        const int minRange = 100;
+
+        var consoleInput = new StringReader($"{inputString}\n");
+
+        Console.SetIn(consoleInput);
+
+        // Act & Assert
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => PromptHelper.ReadInt(minRange: minRange));
+    }
+
+    [TestMethod]
+    public void ReadInt_WithinMaxRange_ReturnsInt()
+    {
+        // Arrange
+        const string inputString = "100";
+        const int expectedInt = 100;
+        const int maxRange = 100;
+
+        var consoleInput = new StringReader($"{inputString}\n");
+
+        Console.SetIn(consoleInput);
+
+        // Act
+        var result = PromptHelper.ReadInt(maxRange: maxRange);
+
+        // Assert
+        Assert.AreEqual(expectedInt, result);
+    }
+
+    [TestMethod]
+    public void ReadInt_OutOfMaxRange_ThrowsArgumentOutOfRangeException()
+    {
+        // Arrange
+        const string inputString = "101";
+        const int maxRange = 100;
+
+        var consoleInput = new StringReader($"{inputString}\n");
+
+        Console.SetIn(consoleInput);
+
+        // Act & Assert
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => PromptHelper.ReadInt(maxRange: maxRange));
+    }
 }

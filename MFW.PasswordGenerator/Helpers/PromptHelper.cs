@@ -7,7 +7,7 @@ namespace MFW.PasswordGenerator.Helpers;
 /// </summary>
 public static class PromptHelper
 {
-    public static string ReadString(bool allowEmpty = false, bool trim = true, int? maxLength = null)
+    public static string ReadString(bool allowEmpty = true, bool trim = true, int? maxLength = null)
     {
         var input = Console.ReadLine() ?? string.Empty;
 
