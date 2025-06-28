@@ -1,13 +1,11 @@
 namespace MFW.PasswordGenerator.Helpers;
 
-// TODO: Implement tests
-
 /// <summary>
 /// Provides helper methods for handling console input and other prompt-related functionalities.
 /// </summary>
 public static class PromptHelper
 {
-    public static string ReadString(bool allowEmpty = true, bool trim = true, int? maxLength = null)
+    public static string ReadString(bool allowEmpty = false, bool trim = true, int? maxLength = null)
     {
         var input = Console.ReadLine() ?? string.Empty;
 
@@ -29,9 +27,14 @@ public static class PromptHelper
         return input;
     }
 
-    public static int ReadInt(int? minRange = null, int? maxRange = null)
+    public static int? ReadInt(bool allowEmpty = false, int? minRange = null, int? maxRange = null)
     {
-        var input = ReadString();
+        var input = ReadString(allowEmpty: allowEmpty);
+
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return null;
+        }
 
         if (!int.TryParse(input, out var result))
         {

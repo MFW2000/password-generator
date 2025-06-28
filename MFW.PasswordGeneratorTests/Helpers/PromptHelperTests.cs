@@ -117,6 +117,21 @@ public class PromptHelperTests
     }
 
     [TestMethod]
+    public void ReadInt_WithAllowEmpty_ReturnsNull()
+    {
+        // Arrange
+        var consoleInput = new StringReader("\n");
+
+        Console.SetIn(consoleInput);
+
+        // Act
+        var result = PromptHelper.ReadInt(allowEmpty: true);
+
+        // Assert
+        Assert.IsNull(result);
+    }
+
+    [TestMethod]
     public void ReadInt_WithinMinRange_ReturnsInt()
     {
         // Arrange
