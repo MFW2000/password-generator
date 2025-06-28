@@ -23,7 +23,7 @@ public static class PromptHelper
 
         if (input.Length > maxLength)
         {
-            throw new ArgumentOutOfRangeException(input, "Input is too long.");
+            throw new ArgumentOutOfRangeException(nameof(maxLength), "Input is too long.");
         }
 
         return input;
@@ -40,12 +40,12 @@ public static class PromptHelper
 
         if (result < minRange)
         {
-            throw new ArgumentOutOfRangeException(input, "Input is less than the minimum range.");
+            throw new ArgumentOutOfRangeException(nameof(minRange), "Input is less than the minimum range.");
         }
 
         if (result > maxRange)
         {
-            throw new ArgumentOutOfRangeException(input, "Input is greater than the maximum range.");
+            throw new ArgumentOutOfRangeException(nameof(maxRange), "Input is greater than the maximum range.");
         }
 
         return result;
