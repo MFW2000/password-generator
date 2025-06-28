@@ -116,11 +116,38 @@ public class MainMenuTests
             .Verifiable(Times.Once);
 
         var consoleInput = new StringReader("invalid\n1\n");
-
-        Console.SetIn(consoleInput);
-
         var consoleOutput = new StringWriter();
 
+        Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
+
+        // Act
+        var result = _sut.DisplayMainPrompt();
+
+        // Assert
+        var output = consoleOutput.ToString();
+
+        Assert.IsTrue(output.Contains("Please select a valid menu option number."));
+        Assert.IsNotNull(result);
+
+        _assemblyVersionProviderMock.Verify();
+    }
+
+    [TestMethod]
+    public void DisplayMainPrompt_WithEmptyInput_ShouldOutputError()
+    {
+        // Arrange
+        var version = new Version(1, 2, 3);
+
+        _assemblyVersionProviderMock
+            .Setup(x => x.GetVersion())
+            .Returns(version)
+            .Verifiable(Times.Once);
+
+        var consoleInput = new StringReader("\n1\n");
+        var consoleOutput = new StringWriter();
+
+        Console.SetIn(consoleInput);
         Console.SetOut(consoleOutput);
 
         // Act
