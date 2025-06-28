@@ -5,6 +5,17 @@ namespace MFW.PasswordGenerator.Helpers;
 /// </summary>
 public static class PromptHelper
 {
+    /// <summary>
+    /// Reads a string input from the console with optional trimming, length validation, and empty value handling.
+    /// </summary>
+    /// <param name="allowEmpty">Specifies whether the input string is allowed to be empty.</param>
+    /// <param name="trim">Indicates whether the input string should be trimmed.</param>
+    /// <param name="maxLength">The maximum allowable length for the input string.</param>
+    /// <returns>The processed string input from the console.</returns>
+    /// <exception cref="ArgumentException">Thrown if the input is empty when empty values are not allowed.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown if the input exceeds the specified maximum length.
+    /// </exception>
     public static string ReadString(bool allowEmpty = false, bool trim = true, int? maxLength = null)
     {
         var input = Console.ReadLine() ?? string.Empty;
@@ -27,6 +38,17 @@ public static class PromptHelper
         return input;
     }
 
+    /// <summary>
+    /// Reads an integer input from the console with optional range validation.
+    /// </summary>
+    /// <param name="allowEmpty">Specifies whether the input string is allowed to be empty.</param>
+    /// <param name="minRange">The minimum allowable value for the input integer.</param>
+    /// <param name="maxRange">The maximum allowable value for the input integer.</param>
+    /// <returns>The processed integer input from the console.</returns>
+    /// <exception cref="FormatException">Thrown if the input is not a valid integer.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown if the input exceeds the specified maximum or minimum length.
+    /// </exception>
     public static int? ReadInt(bool allowEmpty = false, int? minRange = null, int? maxRange = null)
     {
         var input = ReadString(allowEmpty: allowEmpty);

@@ -42,7 +42,7 @@ public abstract class Prompt
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelper.ReadString();
+            var input = PromptHelper.ReadString(true);
 
             if (string.IsNullOrEmpty(input) && defaultAnswer.HasValue)
             {
