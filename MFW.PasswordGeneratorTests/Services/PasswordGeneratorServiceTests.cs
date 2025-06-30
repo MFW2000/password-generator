@@ -184,11 +184,7 @@ public class PasswordGeneratorServiceTests
     public void Generate_WithoutAnyOptions_ThrowsArgumentException()
     {
         // Arrange
-        var options = GetOptions(
-            useUppercase: false,
-            useLowercase: false,
-            minimumDigits: 0,
-            minimumSpecialCharacters: 0);
+        var options = GetOptions();
 
         // Act & Assert
         Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
