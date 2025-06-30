@@ -30,6 +30,8 @@ public class GenerateDefaultPasswordTests
         // Arrange
         const string password = "admin";
 
+        var input = string.Empty;
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(password)
@@ -39,7 +41,7 @@ public class GenerateDefaultPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -63,9 +65,11 @@ public class GenerateDefaultPasswordTests
     }
 
     [TestMethod]
-    public void DisplayMainPrompt_ShouldGenerateWithDefaults()
+    public void DisplayMainPrompt_WithDefaults_ShouldGenerate()
     {
         // Arrange
+        var input = string.Empty;
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.Length == Constants.PasswordLengthDefault
@@ -81,7 +85,7 @@ public class GenerateDefaultPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -99,6 +103,8 @@ public class GenerateDefaultPasswordTests
     public void DisplayMainPrompt_PasswordGeneratorServiceThrowsException_ShouldDisplayError()
     {
         // Arrange
+        var input = string.Empty;
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Throws(new Exception());
@@ -107,7 +113,7 @@ public class GenerateDefaultPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Never);
 
-        var consoleInput = new StringReader("");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -130,6 +136,8 @@ public class GenerateDefaultPasswordTests
     public void DisplayMainPrompt_ClipboardServiceThrowsException_ShouldDisplayError()
     {
         // Arrange
+        var input = string.Empty;
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -139,7 +147,7 @@ public class GenerateDefaultPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Throws(new Exception());
 
-        var consoleInput = new StringReader("");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);

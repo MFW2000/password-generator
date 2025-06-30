@@ -47,15 +47,12 @@ public class PromptRunnerTests
             .Setup(x => x.Clear())
             .Verifiable(Times.Once);
 
-        var consoleOutput = new StringWriter();
-
-        Console.SetOut(consoleOutput);
-
         // Act
         _sut.Run();
 
         // Assert
         _mainMenuMock.Verify();
         _promptFactoryMock.Verify();
+        _consoleClearMock.Verify();
     }
 }

@@ -29,6 +29,7 @@ public class GenerateCustomPasswordTests
     {
         // Arrange
         const string password = "admin";
+        const string input = "\n\n\n\n\n\n\n";
 
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
@@ -39,7 +40,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\n\n\n\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -78,6 +79,8 @@ public class GenerateCustomPasswordTests
         // Arrange
         const int passwordLength = 12;
 
+        var input = $"{passwordLength}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.Length == passwordLength)))
@@ -88,7 +91,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"{passwordLength}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -111,6 +114,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptPasswordLength_WithEmptyInput_ShouldContinueWithDefault()
     {
         // Arrange
+        const string input = "\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.Length == Constants.PasswordLengthDefault)))
@@ -121,7 +126,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -144,6 +149,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptPasswordLength_WithLetterInput_ShouldDisplayError()
     {
         // Arrange
+        const string input = "Help, I can't find the digits\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -153,7 +160,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("Help, I can't find the digits\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -181,6 +188,8 @@ public class GenerateCustomPasswordTests
         // Arrange
         const int smallPasswordLength = Constants.MinimumPasswordLength - 1;
 
+        var input = $"{smallPasswordLength}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -190,7 +199,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"{smallPasswordLength}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -218,6 +227,8 @@ public class GenerateCustomPasswordTests
         // Arrange
         const int largePasswordLength = Constants.MaximumPasswordLength + 1;
 
+        var input = $"{largePasswordLength}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -227,7 +238,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"{largePasswordLength}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -254,6 +265,7 @@ public class GenerateCustomPasswordTests
     {
         // Arrange
         const bool useUppercase = false;
+        const string input = "\nno\n";
 
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
@@ -265,7 +277,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\nno\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -287,6 +299,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptYesNo_OnUppercase_WithEmptyInput_ShouldContinueWithDefault()
     {
         // Arrange
+        const string input = "\n\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.IncludeUppercase == Constants.UseUppercaseInPasswordDefault)))
@@ -297,7 +311,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -319,6 +333,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptYesNo_OnUppercase_WithInvalidInput_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\nbeep\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -328,7 +344,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\nbeep\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -352,6 +368,7 @@ public class GenerateCustomPasswordTests
     {
         // Arrange
         const bool useLowercase = false;
+        const string input = "\n\nno\n";
 
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
@@ -363,7 +380,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\nno\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -385,6 +402,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptYesNo_OnLowercase_WithEmptyInput_ShouldContinueWithDefault()
     {
         // Arrange
+        const string input = "\n\n\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.IncludeLowercase == Constants.UseLowercaseInPasswordDefault)))
@@ -395,7 +414,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -417,6 +436,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptYesNo_OnLowercase_WithInvalidInput_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\n\nbeep\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -426,7 +447,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\nbeep\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -451,6 +472,8 @@ public class GenerateCustomPasswordTests
         // Arrange
         const int minimumDigits = 2;
 
+        var input = $"\n\n\n{minimumDigits}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.MinimumDigits == minimumDigits)))
@@ -461,7 +484,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"\n\n\n{minimumDigits}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -484,6 +507,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptMinimumDigits_WithEmptyInput_ShouldContinueWithDefault()
     {
         // Arrange
+        const string input = "\n\n\n\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.MinimumDigits == Constants.MinimumPasswordDigitsDefault)))
@@ -494,7 +519,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -517,6 +542,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptMinimumDigits_WithLetterInput_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\n\n\nThe numbers, Mason!\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -526,7 +553,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\nThe numbers, Mason!\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -551,6 +578,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptMinimumDigits_WithNegativeInput_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\n\n\n-1\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -560,7 +589,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\n-1\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -588,6 +617,8 @@ public class GenerateCustomPasswordTests
         const int passwordLength = 10;
         const int minimumDigits = 11;
 
+        var input = $"{passwordLength}\n\n\n{minimumDigits}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -597,7 +628,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"{passwordLength}\n\n\n{minimumDigits}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -624,6 +655,8 @@ public class GenerateCustomPasswordTests
         // Arrange
         const int minimumSpecialCharacters = 2;
 
+        var input = $"\n\n\n\n{minimumSpecialCharacters}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.MinimumSpecialCharacters == minimumSpecialCharacters)))
@@ -634,7 +667,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"\n\n\n\n{minimumSpecialCharacters}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -658,6 +691,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptMinimumSpecialCharacters_WithEmptyInput_ShouldContinueWithDefault()
     {
         // Arrange
+        const string input = "\n\n\n\n\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.MinimumSpecialCharacters == Constants.MinimumSpecialPasswordCharactersDefault)))
@@ -668,7 +703,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\n\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -696,6 +731,8 @@ public class GenerateCustomPasswordTests
         const int minimumDigits = 10;
         const int minimumSpecialCharacters = 2;
 
+        var input = $"{passwordLength}\n\n\n{minimumDigits}\n{minimumSpecialCharacters}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -705,7 +742,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"{passwordLength}\n\n\n{minimumDigits}\n{minimumSpecialCharacters}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -728,6 +765,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptMinimumSpecialCharacters_WithLetterInput_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\n\n\n\nhaha money printer go brr\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -737,7 +776,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"\n\n\n\nhaha money printer go brr\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -764,6 +803,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptMinimumSpecialCharacters_WithNegativeInput_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\n\n\n\n-1\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -773,7 +814,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\n\n-1\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -804,6 +845,8 @@ public class GenerateCustomPasswordTests
         const int minimumDigits = 5;
         const int minimumSpecialCharacters = 6;
 
+        var input = $"{passwordLength}\n\n\n{minimumDigits}\n{minimumSpecialCharacters}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -813,7 +856,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"{passwordLength}\n\n\n{minimumDigits}\n{minimumSpecialCharacters}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -842,6 +885,8 @@ public class GenerateCustomPasswordTests
         // Arrange
         const bool useAmbiguous = false;
 
+        var input = $"\n\n\n\n\n{useAmbiguous}\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.AvoidAmbiguousCharacters == useAmbiguous)))
@@ -852,7 +897,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader($"\n\n\n\n\n{useAmbiguous}\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -874,6 +919,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptYesNo_OnAmbiguous_WithEmptyInput_ShouldContinueWithDefault()
     {
         // Arrange
+        const string input = "\n\n\n\n\n\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.Is<PasswordGeneratorOptions>(y =>
                 y.AvoidAmbiguousCharacters == Constants.AvoidAmbiguousCharactersInPasswordDefault)))
@@ -884,7 +931,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\n\n\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -906,6 +953,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PromptYesNo_OnAmbiguous_WithInvalidInput_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\n\n\n\n\nmeow\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -915,7 +964,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n\n\n\n\nmeow\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -938,6 +987,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_WithInvalidConfiguration_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\nno\nno\n0\n0\n\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -947,7 +998,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Never);
 
-        var consoleInput = new StringReader("\nno\nno\n0\n0\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -971,6 +1022,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_PasswordGeneratorServiceThrowsException_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\n\n\n\n\n\n\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Throws(new Exception());
@@ -979,7 +1032,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Never);
 
-        var consoleInput = new StringReader("\n\n\n\n\n\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -1002,6 +1055,8 @@ public class GenerateCustomPasswordTests
     public void DisplayMainPrompt_ClipboardServiceThrowsException_ShouldDisplayError()
     {
         // Arrange
+        const string input = "\n\n\n\n\n\n\n";
+
         _passwordGeneratorServiceMock
             .Setup(x => x.Generate(It.IsAny<PasswordGeneratorOptions>()))
             .Returns(It.IsAny<string>())
@@ -1011,7 +1066,7 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Throws(new Exception());
 
-        var consoleInput = new StringReader("\n\n\n\n\n\n\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);

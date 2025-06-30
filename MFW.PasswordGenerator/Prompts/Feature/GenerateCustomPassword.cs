@@ -108,17 +108,18 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
 
         while (true)
         {
+            int? input;
+
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelpers.ReadTrimmedLine();
-
-            if (string.IsNullOrEmpty(input))
+            try
             {
-                return Constants.PasswordLengthDefault;
+                input = PromptHelper.ReadInt(
+                    true,
+                    Constants.MinimumPasswordLength,
+                    Constants.MaximumPasswordLength);
             }
-
-            if (!int.TryParse(input, out var length)
-                || length is < Constants.MinimumPasswordLength or > Constants.MaximumPasswordLength)
+            catch (Exception)
             {
                 Console.WriteLine(
                     $"The password length must be a number between {Constants.MinimumPasswordLength} " +
@@ -127,7 +128,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
                 continue;
             }
 
-            return length;
+            return input ?? Constants.PasswordLengthDefault;
         }
     }
 
@@ -143,16 +144,15 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
 
         while (true)
         {
+            int? input;
+
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelpers.ReadTrimmedLine();
-
-            if (string.IsNullOrEmpty(input))
+            try
             {
-                return Constants.MinimumPasswordDigitsDefault;
+                input = PromptHelper.ReadInt(true, 0, length);
             }
-
-            if (!int.TryParse(input, out var minimumDigits) || minimumDigits < 0 || minimumDigits > length)
+            catch (Exception)
             {
                 Console.WriteLine(
                     "The minimum number of digits must be a non-negative number and cannot " +
@@ -161,7 +161,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
                 continue;
             }
 
-            return minimumDigits;
+            return input ?? Constants.MinimumPasswordDigitsDefault;
         }
     }
 
@@ -188,18 +188,15 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
 
         while (true)
         {
+            int? input;
+
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelpers.ReadTrimmedLine();
-
-            if (string.IsNullOrEmpty(input))
+            try
             {
-                return Constants.MinimumSpecialPasswordCharactersDefault;
+                input = PromptHelper.ReadInt(true, 0, length - minimumDigits);
             }
-
-            if (!int.TryParse(input, out var minimumSpecialCharacters)
-                || minimumSpecialCharacters < 0
-                || minimumDigits + minimumSpecialCharacters > length)
+            catch (Exception)
             {
                 Console.WriteLine(
                     "The minimum number of special characters must be a non-negative number and the combined " +
@@ -208,7 +205,7 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
                 continue;
             }
 
-            return minimumSpecialCharacters;
+            return input ?? Constants.MinimumSpecialPasswordCharactersDefault;
         }
     }
 

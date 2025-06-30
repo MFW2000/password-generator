@@ -27,7 +27,7 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         {
             Console.Write(CommonText.InputPrompt);
 
-            var input = PromptHelpers.ReadTrimmedLine();
+            var input = PromptHelper.ReadString(true);
 
             switch (input.ToLower())
             {
