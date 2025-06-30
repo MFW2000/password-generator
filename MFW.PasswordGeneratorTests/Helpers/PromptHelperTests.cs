@@ -9,9 +9,11 @@ public class PromptHelperTests
     public void ReadString_WithAllowEmpty_ReturnsEmptyString()
     {
         // Arrange
+        const string input = "\n";
+
         var expectedString = string.Empty;
 
-        var consoleInput = new StringReader("\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -26,7 +28,9 @@ public class PromptHelperTests
     public void ReadString_WithoutAllowEmpty_ThrowsArgumentException()
     {
         // Arrange
-        var consoleInput = new StringReader("\n");
+        const string input = "\n";
+
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -38,10 +42,10 @@ public class PromptHelperTests
     public void ReadString_WithTrim_ReturnsTrimmedString()
     {
         // Arrange
-        const string inputString = " untrimmed string ";
+        const string input = " untrimmed string \n";
         const string expectedString = "untrimmed string";
 
-        var consoleInput = new StringReader($"{inputString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -56,9 +60,10 @@ public class PromptHelperTests
     public void ReadString_WithoutTrim_ReturnsUntrimmedString()
     {
         // Arrange
-        const string inputExpectedString = " untrimmed string ";
+        const string input = " untrimmed string \n";
+        const string expectedString = " untrimmed string ";
 
-        var consoleInput = new StringReader($"{inputExpectedString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -66,17 +71,18 @@ public class PromptHelperTests
         var result = PromptHelper.ReadString(trim: false);
 
         // Assert
-        Assert.AreEqual(inputExpectedString, result);
+        Assert.AreEqual(expectedString, result);
     }
 
     [TestMethod]
     public void ReadString_WithinMaxLength_ReturnsString()
     {
         // Arrange
-        const string inputExpectedString = "12345";
+        const string input = "12345\n";
+        const string expectedString = "12345";
         const int maxLength = 5;
 
-        var consoleInput = new StringReader($"{inputExpectedString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -84,17 +90,17 @@ public class PromptHelperTests
         var result = PromptHelper.ReadString(maxLength: maxLength);
 
         // Assert
-        Assert.AreEqual(inputExpectedString, result);
+        Assert.AreEqual(expectedString, result);
     }
 
     [TestMethod]
     public void ReadString_OverMaxLength_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
-        const string inputString = "123456";
+        const string input = "123456\n";
         const int maxLength = 5;
 
-        var consoleInput = new StringReader($"{inputString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -106,9 +112,9 @@ public class PromptHelperTests
     public void ReadInt_WithNoIntInput_ThrowsFormatException()
     {
         // Arrange
-        const string inputString = "not an integer";
+        const string input = "not an integer\n";
 
-        var consoleInput = new StringReader($"{inputString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -120,7 +126,9 @@ public class PromptHelperTests
     public void ReadInt_WithAllowEmpty_ReturnsNull()
     {
         // Arrange
-        var consoleInput = new StringReader("\n");
+        const string input = "\n";
+
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -135,11 +143,11 @@ public class PromptHelperTests
     public void ReadInt_WithinMinRange_ReturnsInt()
     {
         // Arrange
-        const string inputString = "100";
+        const string input = "100\n";
         const int expectedInt = 100;
         const int minRange = 100;
 
-        var consoleInput = new StringReader($"{inputString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -154,10 +162,10 @@ public class PromptHelperTests
     public void ReadInt_OutOfMinRange_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
-        const string inputString = "99";
+        const string input = "99\n";
         const int minRange = 100;
 
-        var consoleInput = new StringReader($"{inputString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -169,11 +177,11 @@ public class PromptHelperTests
     public void ReadInt_WithinMaxRange_ReturnsInt()
     {
         // Arrange
-        const string inputString = "100";
+        const string input = "100\n";
         const int expectedInt = 100;
         const int maxRange = 100;
 
-        var consoleInput = new StringReader($"{inputString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -188,10 +196,10 @@ public class PromptHelperTests
     public void ReadInt_OutOfMaxRange_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
-        const string inputString = "101";
+        const string input = "101\n";
         const int maxRange = 100;
 
-        var consoleInput = new StringReader($"{inputString}\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 

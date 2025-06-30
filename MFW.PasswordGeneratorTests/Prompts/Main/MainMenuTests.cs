@@ -25,6 +25,8 @@ public class MainMenuTests
     public void DisplayMainPrompt_ShouldOutputMenuAndVersion()
     {
         // Arrange
+        const string input = "3\n";
+
         var version = new Version(1, 2, 3);
 
         _assemblyVersionProviderMock
@@ -32,11 +34,11 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
-        var consoleInput = new StringReader("3\n");
 
-        Console.SetOut(consoleOutput);
         Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
 
         // Act
         _sut.DisplayMainPrompt();
@@ -57,9 +59,11 @@ public class MainMenuTests
     }
 
     [TestMethod]
-    public void DisplayMainPrompt_ShouldReturnCorrectPrompt_ForValidInput()
+    public void DisplayMainPrompt_WithValidInput_ShouldReturnCorrectPrompt()
     {
         // Arrange
+        const string input = "2\n";
+
         var version = new Version(1, 2, 3);
 
         _assemblyVersionProviderMock
@@ -67,7 +71,7 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("2\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -81,9 +85,11 @@ public class MainMenuTests
     }
 
     [TestMethod]
-    public void DisplayMainPrompt_ShouldReturnNull_ForExitInput()
+    public void DisplayMainPrompt_WithExitInput_ShouldReturnNull()
     {
         // Arrange
+        const string input = "4\n";
+
         var version = new Version(1, 2, 3);
 
         _assemblyVersionProviderMock
@@ -91,7 +97,7 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("4\n");
+        var consoleInput = new StringReader(input);
 
         Console.SetIn(consoleInput);
 
@@ -105,9 +111,11 @@ public class MainMenuTests
     }
 
     [TestMethod]
-    public void DisplayMainPrompt_ShouldOutputError_ForInvalidInput()
+    public void DisplayMainPrompt_WithInvalidInput_ShouldOutputError()
     {
         // Arrange
+        const string input = "invalid\n1\n";
+
         var version = new Version(1, 2, 3);
 
         _assemblyVersionProviderMock
@@ -115,7 +123,7 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("invalid\n1\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);
@@ -137,6 +145,8 @@ public class MainMenuTests
     public void DisplayMainPrompt_WithEmptyInput_ShouldOutputError()
     {
         // Arrange
+        const string input = "\n1\n";
+
         var version = new Version(1, 2, 3);
 
         _assemblyVersionProviderMock
@@ -144,7 +154,7 @@ public class MainMenuTests
             .Returns(version)
             .Verifiable(Times.Once);
 
-        var consoleInput = new StringReader("\n1\n");
+        var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
         Console.SetIn(consoleInput);

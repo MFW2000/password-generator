@@ -42,7 +42,7 @@ public class PasswordGeneratorServiceTests
         // Arrange
         const int length = 14;
 
-        var options = GetOptions(length: length, useUppercase: true);
+        var options = GetOptions(length: length);
 
         // Act
         var result = _sut.Generate(options);
@@ -184,7 +184,11 @@ public class PasswordGeneratorServiceTests
     public void Generate_WithoutAnyOptions_ThrowsArgumentException()
     {
         // Arrange
-        var options = GetOptions(useUppercase: false, useLowercase: false, minimumDigits: 0, minimumSpecialCharacters: 0);
+        var options = GetOptions(
+            useUppercase: false,
+            useLowercase: false,
+            minimumDigits: 0,
+            minimumSpecialCharacters: 0);
 
         // Act & Assert
         Assert.ThrowsExactly<PasswordGeneratorException>(() => _sut.Generate(options));
