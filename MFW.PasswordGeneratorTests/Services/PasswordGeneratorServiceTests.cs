@@ -42,7 +42,7 @@ public class PasswordGeneratorServiceTests
         // Arrange
         const int length = 14;
 
-        var options = GetOptions(length: length);
+        var options = GetOptions(length: length, useUppercase: true);
 
         // Act
         var result = _sut.Generate(options);
