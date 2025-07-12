@@ -6,7 +6,6 @@ namespace MFW.PasswordGeneratorTests.Infrastructure;
 // TODO: Consider to not use the user temporary path.
 // TODO: Check if verifiable is correctly used (perhaps times check should be done in verify).
 // TODO: Add edge case tests.
-// TODO: Check
 
 [TestClass]
 public class ConsoleLoggerTests
