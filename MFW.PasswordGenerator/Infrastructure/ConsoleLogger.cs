@@ -5,7 +5,7 @@ namespace MFW.PasswordGenerator.Infrastructure;
 /// <summary>
 /// Implements <see cref="IConsoleLogger"/> for logging messages to a log file.
 /// </summary>
-public class ConsoleLogger : IConsoleLogger
+public class ConsoleLogger(TimeProvider timeProvider) : IConsoleLogger
 {
     private static readonly object Lock = new();
 
@@ -45,7 +45,7 @@ public class ConsoleLogger : IConsoleLogger
     /// <param name="level">The severity level of the log message.</param>
     /// <param name="message">The message to log.</param>
     /// <param name="logFile">The path of the log file where the entry will be written.</param>
-    private static void Log(LogLevel level, string message, string logFile)
+    private void Log(LogLevel level, string message, string logFile)
     {
         if (string.IsNullOrWhiteSpace(message))
         {
@@ -53,7 +53,7 @@ public class ConsoleLogger : IConsoleLogger
         }
 
         var logLevelString = level.ToString().ToUpper();
-        var timestamp = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        var timestamp = timeProvider.GetLocalNow().ToString("yyyy-MM-dd HH:mm:ss");
         var logEntry = $"[{timestamp} {logLevelString}] {message}";
 
         lock (Lock)
