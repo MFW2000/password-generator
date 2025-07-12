@@ -2,6 +2,9 @@
 
 namespace MFW.PasswordGenerator.Infrastructure;
 
+/// <summary>
+/// Implements <see cref="IConsoleLogger"/> for logging messages to a log file.
+/// </summary>
 public class ConsoleLogger : IConsoleLogger
 {
     private static readonly object Lock = new();
@@ -9,46 +12,65 @@ public class ConsoleLogger : IConsoleLogger
     /// <inheritdoc/>
     public void LogDebug(string message, string logFile = Constants.DefaultLogFile)
     {
-        Log("DBG", message, logFile);
+        Log(LogLevel.Dbg, message, logFile);
     }
 
     /// <inheritdoc/>
     public void LogInformation(string message, string logFile = Constants.DefaultLogFile)
     {
-        Log("INF", message, logFile);
+        Log(LogLevel.Inf, message, logFile);
     }
 
     /// <inheritdoc/>
     public void LogWarning(string message, string logFile = Constants.DefaultLogFile)
     {
-        Log("WRN", message, logFile);
+        Log(LogLevel.Wrn, message, logFile);
     }
 
     /// <inheritdoc/>
     public void LogError(string message, string logFile = Constants.DefaultLogFile)
     {
-        Log("ERR", message, logFile);
+        Log(LogLevel.Err, message, logFile);
     }
 
     /// <inheritdoc/>
     public void LogCritical(string message, string logFile = Constants.DefaultLogFile)
     {
-        Log("FTL", message, logFile);
+        Log(LogLevel.Ftl, message, logFile);
     }
 
-    private static void Log(string level, string message, string logFile)
+    /// <summary>
+    /// Writes a log entry to a specified log file with a specified log level and message.
+    /// </summary>
+    /// <param name="level">The severity level of the log message.</param>
+    /// <param name="message">The message to log.</param>
+    /// <param name="logFile">The path of the log file where the entry will be written.</param>
+    private static void Log(LogLevel level, string message, string logFile)
     {
         if (string.IsNullOrWhiteSpace(message))
         {
             logFile = Constants.DefaultLogFile;
         }
 
+        var logLevelString = level.ToString().ToUpper();
         var timestamp = DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        var logEntry = $"[{timestamp} {level}] {message}";
+        var logEntry = $"[{timestamp} {logLevelString}] {message}";
 
         lock (Lock)
         {
             File.AppendAllText(logFile, logEntry + Environment.NewLine);
         }
+    }
+
+    /// <summary>
+    /// Represents the severity of log messages.
+    /// </summary>
+    private enum LogLevel
+    {
+        Dbg,
+        Inf,
+        Wrn,
+        Err,
+        Ftl
     }
 }

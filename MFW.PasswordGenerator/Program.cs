@@ -41,8 +41,9 @@ public static class Program
         services.AddSingleton<IAssemblyVersionProvider>(new AssemblyVersionProvider(typeof(Program).Assembly));
 
         // Register services.
-        services.AddTransient<IPromptFactory, PromptFactory>();
+        services.AddSingleton<IConsoleLogger, ConsoleLogger>();
         services.AddTransient<IConsoleClear, ConsoleClear>();
+        services.AddTransient<IPromptFactory, PromptFactory>();
         services.AddTransient<IPasswordGeneratorService, PasswordGeneratorService>();
 
         // Register runner service to manage application loop.
