@@ -49,7 +49,7 @@ public class ConsoleLogger(TimeProvider timeProvider) : IConsoleLogger
     {
         if (string.IsNullOrWhiteSpace(message))
         {
-            logFile = Constants.DefaultLogFile;
+            return;
         }
 
         var logLevelString = level.ToString().ToUpper();

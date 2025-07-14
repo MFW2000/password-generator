@@ -3,10 +3,6 @@ using Microsoft.Extensions.Time.Testing;
 
 namespace MFW.PasswordGeneratorTests.Infrastructure;
 
-// TODO: Consider to not use the user temporary path.
-// TODO: Check if verifiable is correctly used (perhaps times check should be done in verify).
-// TODO: Add edge case tests.
-
 [TestClass]
 public class ConsoleLoggerTests
 {
@@ -24,7 +20,7 @@ public class ConsoleLoggerTests
 
         _sut = new ConsoleLogger(_fakeTimeProvider);
 
-        _testLogFile = Path.Combine(Path.GetTempPath(), $"{Guid.NewGuid()}.log");
+        _testLogFile = $"{Guid.NewGuid()}.log";
     }
 
     [TestMethod]
@@ -120,6 +116,19 @@ public class ConsoleLoggerTests
 
         Assert.AreEqual(1, lines.Length);
         Assert.AreEqual(expectedMessage, lines[0]);
+    }
+
+    [TestMethod]
+    public void LogDebug_WithEmptyMessage_ShouldSkipLogging()
+    {
+        // Arrange
+        var message = string.Empty;
+
+        // Act
+        _sut.LogDebug(message, _testLogFile);
+
+        // Assert
+        Assert.IsFalse(File.Exists(_testLogFile));
     }
 
     private static string GetExpectedMessage(DateTimeOffset timestamp, string logLevelString, string message)
