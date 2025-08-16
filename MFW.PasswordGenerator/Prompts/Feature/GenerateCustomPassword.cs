@@ -1,15 +1,22 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Helpers;
+using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
 using TextCopy;
 
 namespace MFW.PasswordGenerator.Prompts.Feature;
 
+// TODO: Log for at least each try catch with the proper log level.
+
 /// <summary>
 /// Responsible for assisting the user in generating a new customized password.
 /// </summary>
-public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorService, IClipboard clipboard) : Prompt
+public class GenerateCustomPassword(
+    IPasswordGeneratorService passwordGeneratorService,
+    IClipboard clipboard,
+    IConsoleLogger logger)
+    : Prompt
 {
     /// <inheritdoc/>
     public override PromptType? DisplayMainPrompt()
@@ -65,8 +72,10 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
         {
             password = passwordGeneratorService.Generate(options);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            logger.LogError($"Generating custom password failed: {exception.Message}");
+
             Console.WriteLine("An error occurred while generating the password.");
 
             ContinuePrompt();
@@ -84,8 +93,10 @@ public class GenerateCustomPassword(IPasswordGeneratorService passwordGeneratorS
 
             Console.WriteLine("The password was saved to your clipboard.");
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            logger.LogError($"Saving password to clipboard failed: {exception.Message}");
+
             Console.WriteLine(
                 "The password could not be saved to your clipboard, make sure you have the correct " +
                 "dependencies installed.");
