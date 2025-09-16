@@ -1,4 +1,5 @@
 using MFW.PasswordGenerator;
+using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Prompts.Feature;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
@@ -12,6 +13,7 @@ public class GenerateCustomPasswordTests
 {
     private Mock<IPasswordGeneratorService> _passwordGeneratorServiceMock = null!;
     private Mock<IClipboard> _clipboardMock = null!;
+    private Mock<IConsoleLogger> _consoleLoggerMock = null!;
 
     private GenerateCustomPassword _sut = null!;
 
@@ -20,8 +22,12 @@ public class GenerateCustomPasswordTests
     {
         _passwordGeneratorServiceMock = new Mock<IPasswordGeneratorService>(MockBehavior.Strict);
         _clipboardMock = new Mock<IClipboard>(MockBehavior.Strict);
+        _consoleLoggerMock = new Mock<IConsoleLogger>(MockBehavior.Strict);
 
-        _sut = new GenerateCustomPassword(_passwordGeneratorServiceMock.Object, _clipboardMock.Object);
+        _sut = new GenerateCustomPassword(
+            _passwordGeneratorServiceMock.Object,
+            _clipboardMock.Object,
+            _consoleLoggerMock.Object);
     }
 
     [TestMethod]
@@ -160,6 +166,12 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
+        // TODO: Continue adding logger mocks.
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -180,6 +192,7 @@ public class GenerateCustomPasswordTests
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]

@@ -7,7 +7,7 @@ using TextCopy;
 
 namespace MFW.PasswordGenerator.Prompts.Feature;
 
-// TODO: Log for at least each try catch with the proper log level.
+// TODO: Check for additional logs and continue in order classes.
 
 /// <summary>
 /// Responsible for assisting the user in generating a new customized password.
@@ -113,7 +113,7 @@ public class GenerateCustomPassword(
     /// Prompts the user to enter a valid password length or nothing to set the default length.
     /// </summary>
     /// <returns>The specified length or the default length when the input is empty.</returns>
-    private static int PromptPasswordLength()
+    private int PromptPasswordLength()
     {
         Console.WriteLine($"Enter the length of the password (default {Constants.PasswordLengthDefault}):");
 
@@ -130,8 +130,10 @@ public class GenerateCustomPassword(
                     Constants.MinimumPasswordLength,
                     Constants.MaximumPasswordLength);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                logger.LogInformation($"Reading password length failed: {exception.Message}");
+
                 Console.WriteLine(
                     $"The password length must be a number between {Constants.MinimumPasswordLength} " +
                     $"and {Constants.MaximumPasswordLength}.");
@@ -148,7 +150,7 @@ public class GenerateCustomPassword(
     /// </summary>
     /// <param name="length">The password length to validate the result.</param>
     /// <returns>The specified number of digits or the default amount when the input is empty.</returns>
-    private static int PromptMinimumDigits(int length)
+    private int PromptMinimumDigits(int length)
     {
         Console.WriteLine(
             $"Enter the minimum number of digits to be included (default {Constants.MinimumPasswordDigitsDefault}):");
@@ -163,8 +165,10 @@ public class GenerateCustomPassword(
             {
                 input = PromptHelper.ReadInt(true, 0, length);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                logger.LogInformation($"Reading minimum digits failed: {exception.Message}");
+
                 Console.WriteLine(
                     "The minimum number of digits must be a non-negative number and cannot " +
                     "exceed the password length.");
@@ -183,7 +187,7 @@ public class GenerateCustomPassword(
     /// <param name="length">The password length to validate the result.</param>
     /// <param name="minimumDigits">The minimum number of digits to validate the result.</param>
     /// <returns>The specified number of special characters or the default amount when the input is empty.</returns>
-    private static int PromptMinimumSpecialCharacters(int length, int minimumDigits)
+    private int PromptMinimumSpecialCharacters(int length, int minimumDigits)
     {
         if (length == minimumDigits)
         {
@@ -207,8 +211,10 @@ public class GenerateCustomPassword(
             {
                 input = PromptHelper.ReadInt(true, 0, length - minimumDigits);
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                logger.LogInformation($"Reading minimum special characters failed: {exception.Message}");
+
                 Console.WriteLine(
                     "The minimum number of special characters must be a non-negative number and the combined " +
                     "total of special characters and digits cannot exceed the password's length.");

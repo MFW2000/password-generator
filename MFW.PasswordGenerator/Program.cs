@@ -37,6 +37,9 @@ public static class Program
     {
         var services = new ServiceCollection();
 
+        // Register core framework services.
+        services.AddSingleton(TimeProvider.System);
+
         // Register pre-configured services using direct instance registration.
         services.AddSingleton<IAssemblyVersionProvider>(new AssemblyVersionProvider(typeof(Program).Assembly));
 
