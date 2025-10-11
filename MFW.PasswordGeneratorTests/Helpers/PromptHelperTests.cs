@@ -1,8 +1,9 @@
-﻿using MFW.PasswordGenerator.Helpers;
+﻿using JetBrains.Annotations;
+using MFW.PasswordGenerator.Helpers;
 
 namespace MFW.PasswordGeneratorTests.Helpers;
 
-[TestClass]
+[TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class PromptHelperTests
 {
     [TestMethod]

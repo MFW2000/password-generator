@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
+using JetBrains.Annotations;
 using MFW.PasswordGenerator.Providers;
 using Moq;
 
 namespace MFW.PasswordGeneratorTests.Providers;
 
-[TestClass]
+[TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class AssemblyVersionProviderTests
 {
     private Mock<Assembly> _assemblyMock = null!;

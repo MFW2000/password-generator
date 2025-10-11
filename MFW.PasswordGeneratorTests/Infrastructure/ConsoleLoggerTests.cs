@@ -1,9 +1,10 @@
-﻿using MFW.PasswordGenerator.Infrastructure;
+﻿using JetBrains.Annotations;
+using MFW.PasswordGenerator.Infrastructure;
 using Microsoft.Extensions.Time.Testing;
 
 namespace MFW.PasswordGeneratorTests.Infrastructure;
 
-[TestClass]
+[TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class ConsoleLoggerTests
 {
     private string _testLogFile = string.Empty;
@@ -38,7 +39,7 @@ public class ConsoleLoggerTests
         // Assert
         var lines = File.ReadAllLines(_testLogFile);
 
-        Assert.AreEqual(1, lines.Length);
+        Assert.HasCount(1, lines);
         Assert.AreEqual(expectedMessage, lines[0]);
     }
 
@@ -57,7 +58,7 @@ public class ConsoleLoggerTests
         // Assert
         var lines = File.ReadAllLines(_testLogFile);
 
-        Assert.AreEqual(1, lines.Length);
+        Assert.HasCount(1, lines);
         Assert.AreEqual(expectedMessage, lines[0]);
     }
 
@@ -76,7 +77,7 @@ public class ConsoleLoggerTests
         // Assert
         var lines = File.ReadAllLines(_testLogFile);
 
-        Assert.AreEqual(1, lines.Length);
+        Assert.HasCount(1, lines);
         Assert.AreEqual(expectedMessage, lines[0]);
     }
 
@@ -95,7 +96,7 @@ public class ConsoleLoggerTests
         // Assert
         var lines = File.ReadAllLines(_testLogFile);
 
-        Assert.AreEqual(1, lines.Length);
+        Assert.HasCount(1, lines);
         Assert.AreEqual(expectedMessage, lines[0]);
     }
 
@@ -114,7 +115,7 @@ public class ConsoleLoggerTests
         // Assert
         var lines = File.ReadAllLines(_testLogFile);
 
-        Assert.AreEqual(1, lines.Length);
+        Assert.HasCount(1, lines);
         Assert.AreEqual(expectedMessage, lines[0]);
     }
 

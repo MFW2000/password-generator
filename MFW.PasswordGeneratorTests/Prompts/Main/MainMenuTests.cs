@@ -1,4 +1,5 @@
-﻿using MFW.PasswordGenerator;
+﻿using JetBrains.Annotations;
+using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Prompts.Main;
 using MFW.PasswordGenerator.Providers.Interfaces;
@@ -6,7 +7,7 @@ using Moq;
 
 namespace MFW.PasswordGeneratorTests.Prompts.Main;
 
-[TestClass]
+[TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class MainMenuTests
 {
     private Mock<IAssemblyVersionProvider> _assemblyVersionProviderMock = null!;
@@ -46,13 +47,13 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains($"=== {CommonText.AppTitle} v{version.ToString(3)}"));
-        Assert.IsTrue(output.Contains(CommonText.AppSubTitle));
-        Assert.IsTrue(output.Contains("--- Main Menu ---"));
-        Assert.IsTrue(output.Contains($"1. {CommonText.GenerateDefaultPasswordTitle}"));
-        Assert.IsTrue(output.Contains($"2. {CommonText.GenerateCustomPasswordTitle}"));
-        Assert.IsTrue(output.Contains("3. Exit"));
-        Assert.IsTrue(output.Contains(CommonText.TooltipOption));
+        Assert.Contains($"=== {CommonText.AppTitle} v{version.ToString(3)}", output);
+        Assert.Contains(CommonText.AppSubTitle, output);
+        Assert.Contains("--- Main Menu ---", output);
+        Assert.Contains($"1. {CommonText.GenerateDefaultPasswordTitle}", output);
+        Assert.Contains($"2. {CommonText.GenerateCustomPasswordTitle}", output);
+        Assert.Contains("3. Exit", output);
+        Assert.Contains(CommonText.TooltipOption, output);
 
         _assemblyVersionProviderMock.Verify();
     }
@@ -134,7 +135,7 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("Please select a valid menu option."));
+        Assert.Contains("Please select a valid menu option.", output);
         Assert.IsNotNull(result);
 
         _assemblyVersionProviderMock.Verify();
@@ -165,7 +166,7 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("Please select a valid menu option."));
+        Assert.Contains("Please select a valid menu option.", output);
         Assert.IsNotNull(result);
 
         _assemblyVersionProviderMock.Verify();

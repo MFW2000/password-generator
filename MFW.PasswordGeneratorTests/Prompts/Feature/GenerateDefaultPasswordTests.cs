@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Prompts.Feature;
@@ -8,7 +9,7 @@ using TextCopy;
 
 namespace MFW.PasswordGeneratorTests.Prompts.Feature;
 
-[TestClass]
+[TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class GenerateDefaultPasswordTests
 {
     private Mock<IPasswordGeneratorService> _passwordGeneratorServiceMock = null!;
@@ -59,12 +60,12 @@ public class GenerateDefaultPasswordTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains($"=== {CommonText.GenerateDefaultPasswordTitle} ==="));
-        Assert.IsTrue(output.Contains("Generate a new password with default secure settings."));
-        Assert.IsTrue(output.Contains("Generating password..."));
-        Assert.IsTrue(output.Contains($"New password: {password}"));
-        Assert.IsTrue(output.Contains("Your new password was saved to your clipboard."));
-        Assert.IsTrue(output.Contains(CommonText.TooltipContinue));
+        Assert.Contains($"=== {CommonText.GenerateDefaultPasswordTitle} ===", output);
+        Assert.Contains("Generate a new password with default secure settings.", output);
+        Assert.Contains("Generating password...", output);
+        Assert.Contains($"New password: {password}", output);
+        Assert.Contains("Your new password was saved to your clipboard.", output);
+        Assert.Contains(CommonText.TooltipContinue, output);
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -135,8 +136,8 @@ public class GenerateDefaultPasswordTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("An error occurred while generating the password."));
-        Assert.IsTrue(output.Contains("Press any key to continue."));
+        Assert.Contains("An error occurred while generating the password.", output);
+        Assert.Contains("Press any key to continue.", output);
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -174,8 +175,9 @@ public class GenerateDefaultPasswordTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains(
-            "Your new password could not be saved to your clipboard, make sure you have the correct dependencies installed."));
+        Assert.Contains(
+            "Your new password could not be saved to your clipboard, make sure you have the correct dependencies installed.",
+            output);
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
