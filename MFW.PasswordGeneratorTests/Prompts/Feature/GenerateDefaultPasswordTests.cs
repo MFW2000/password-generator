@@ -1,4 +1,5 @@
 using MFW.PasswordGenerator;
+using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Prompts.Feature;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
@@ -12,6 +13,7 @@ public class GenerateDefaultPasswordTests
 {
     private Mock<IPasswordGeneratorService> _passwordGeneratorServiceMock = null!;
     private Mock<IClipboard> _clipboardMock = null!;
+    private Mock<IConsoleLogger> _consoleLogger = null!;
 
     private GenerateDefaultPassword _sut = null!;
 
@@ -20,8 +22,12 @@ public class GenerateDefaultPasswordTests
     {
         _passwordGeneratorServiceMock = new Mock<IPasswordGeneratorService>(MockBehavior.Strict);
         _clipboardMock = new Mock<IClipboard>(MockBehavior.Strict);
+        _consoleLogger = new Mock<IConsoleLogger>(MockBehavior.Strict);
 
-        _sut = new GenerateDefaultPassword(_passwordGeneratorServiceMock.Object, _clipboardMock.Object);
+        _sut = new GenerateDefaultPassword(
+            _passwordGeneratorServiceMock.Object,
+            _clipboardMock.Object,
+            _consoleLogger.Object);
     }
 
     [TestMethod]
@@ -57,7 +63,7 @@ public class GenerateDefaultPasswordTests
         Assert.IsTrue(output.Contains("Generate a new password with default secure settings."));
         Assert.IsTrue(output.Contains("Generating password..."));
         Assert.IsTrue(output.Contains($"New password: {password}"));
-        Assert.IsTrue(output.Contains("The password was saved to your clipboard."));
+        Assert.IsTrue(output.Contains("Your new password was saved to your clipboard."));
         Assert.IsTrue(output.Contains(CommonText.TooltipContinue));
 
         _passwordGeneratorServiceMock.Verify();
@@ -113,6 +119,10 @@ public class GenerateDefaultPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Never);
 
+        _consoleLogger
+            .Setup(x => x.LogError(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -130,6 +140,7 @@ public class GenerateDefaultPasswordTests
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLogger.Verify();
     }
 
     [TestMethod]
@@ -147,6 +158,10 @@ public class GenerateDefaultPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Throws(new Exception());
 
+        _consoleLogger
+            .Setup(x => x.LogError(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -160,10 +175,10 @@ public class GenerateDefaultPasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            "The password could not be saved to your clipboard, make sure you have the correct " +
-            "dependencies installed."));
+            "Your new password could not be saved to your clipboard, make sure you have the correct dependencies installed."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLogger.Verify();
     }
 }

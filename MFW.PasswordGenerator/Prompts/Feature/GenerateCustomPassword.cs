@@ -7,8 +7,6 @@ using TextCopy;
 
 namespace MFW.PasswordGenerator.Prompts.Feature;
 
-// TODO: Check for additional logs and continue in order classes.
-
 /// <summary>
 /// Responsible for assisting the user in generating a new customized password.
 /// </summary>
@@ -27,10 +25,8 @@ public class GenerateCustomPassword(
         Console.WriteLine("--- Constraints ---");
         Console.WriteLine("The password must comply with the following constraints:");
         Console.WriteLine(
-            $"- Length must be between {Constants.MinimumPasswordLength} and " +
-            $"{Constants.MaximumPasswordLength} characters");
-        Console.WriteLine(
-            "- The password must at least contain uppercases, lowercases, digits, or special characters");
+            $"- Length must be between {Constants.MinimumPasswordLength} and {Constants.MaximumPasswordLength} characters");
+        Console.WriteLine("- The password must at least contain uppercases, lowercases, digits, or special characters");
         Console.WriteLine("- There may not be more digits and/or special characters than the length of the password");
         Console.WriteLine();
         Console.WriteLine("--- Preferences ---");
@@ -58,10 +54,12 @@ public class GenerateCustomPassword(
 
         if (!IsValidPasswordConfig(includeUppercase, includeLowercase, minimumDigits, minimumSpecialCharacters))
         {
+            Console.WriteLine();
             Console.WriteLine(
-                "Password options must include at least one of: uppercase letters, lowercase letters, digits, " +
-                "or special characters.");
-            Console.ReadLine();
+                "Password options must include at least one of: uppercase letters, lowercase letters, digits, or special characters.");
+            Console.WriteLine();
+
+            ContinuePrompt();
 
             return PromptType.MainMenu;
         }
@@ -83,6 +81,7 @@ public class GenerateCustomPassword(
             return PromptType.MainMenu;
         }
 
+        Console.WriteLine();
         Console.WriteLine("Generating password...");
         Console.WriteLine();
         Console.WriteLine($"New password: {password}");
@@ -91,15 +90,14 @@ public class GenerateCustomPassword(
         {
             clipboard.SetText(password);
 
-            Console.WriteLine("The password was saved to your clipboard.");
+            Console.WriteLine("Your new password was saved to your clipboard.");
         }
         catch (Exception exception)
         {
             logger.LogError($"Saving password to clipboard failed: {exception.Message}");
 
             Console.WriteLine(
-                "The password could not be saved to your clipboard, make sure you have the correct " +
-                "dependencies installed.");
+                "Your new password could not be saved to your clipboard, make sure you have the correct dependencies installed.");
         }
 
         Console.WriteLine();
@@ -132,11 +130,10 @@ public class GenerateCustomPassword(
             }
             catch (Exception exception)
             {
-                logger.LogInformation($"Reading password length failed: {exception.Message}");
+                logger.LogInformation($"Reading password length input failed: {exception.Message}");
 
                 Console.WriteLine(
-                    $"The password length must be a number between {Constants.MinimumPasswordLength} " +
-                    $"and {Constants.MaximumPasswordLength}.");
+                    $"The password length must be a number between {Constants.MinimumPasswordLength} and {Constants.MaximumPasswordLength}.");
 
                 continue;
             }
@@ -167,11 +164,10 @@ public class GenerateCustomPassword(
             }
             catch (Exception exception)
             {
-                logger.LogInformation($"Reading minimum digits failed: {exception.Message}");
+                logger.LogInformation($"Reading minimum digits input failed: {exception.Message}");
 
                 Console.WriteLine(
-                    "The minimum number of digits must be a non-negative number and cannot " +
-                    "exceed the password length.");
+                    "The minimum number of digits must be a non-negative number and cannot exceed the password length.");
 
                 continue;
             }
@@ -198,8 +194,7 @@ public class GenerateCustomPassword(
         }
 
         Console.WriteLine(
-            $"Enter the minimum number of special characters to be included " +
-            $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):");
+            $"Enter the minimum number of special characters to be included (default {Constants.MinimumSpecialPasswordCharactersDefault}):");
 
         while (true)
         {
@@ -213,11 +208,13 @@ public class GenerateCustomPassword(
             }
             catch (Exception exception)
             {
-                logger.LogInformation($"Reading minimum special characters failed: {exception.Message}");
+                logger.LogInformation($"Reading minimum special character input failed: {exception.Message}");
 
                 Console.WriteLine(
-                    "The minimum number of special characters must be a non-negative number and the combined " +
-                    "total of special characters and digits cannot exceed the password's length.");
+                    """
+                    The minimum number of special characters must be a non-negative number and the combined total of special characters and
+                    digits cannot exceed the password's length.
+                    """);
 
                 continue;
             }

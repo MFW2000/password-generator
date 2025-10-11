@@ -19,8 +19,7 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
         Console.WriteLine("--- Main Menu ---");
         Console.WriteLine($"1. {CommonText.GenerateDefaultPasswordTitle}");
         Console.WriteLine($"2. {CommonText.GenerateCustomPasswordTitle}");
-        Console.WriteLine($"3. {CommonText.HashPasswordTitle}");
-        Console.WriteLine("4. Exit");
+        Console.WriteLine("3. Exit");
         Console.WriteLine(CommonText.TooltipOption);
 
         while (true)
@@ -36,11 +35,9 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
                 case "2":
                     return PromptType.GenerateCustomPassword;
                 case "3":
-                    return PromptType.HashPassword;
-                case "4":
                     return null;
                 default:
-                    Console.WriteLine("Please select a valid menu option number.");
+                    Console.WriteLine("Please select a valid menu option.");
                     break;
             }
         }

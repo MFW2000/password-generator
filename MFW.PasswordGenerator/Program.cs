@@ -56,7 +56,6 @@ public static class Program
         services.AddTransient<MainMenu>();
         services.AddTransient<GenerateDefaultPassword>();
         services.AddTransient<GenerateCustomPassword>();
-        services.AddTransient<HashPassword>();
 
         // Register third-party services.
         services.InjectClipboard();

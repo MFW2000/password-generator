@@ -21,7 +21,7 @@ public class PromptRunnerTests
     [TestInitialize]
     public void Setup()
     {
-        _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>();
+        _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>(MockBehavior.Strict);
         _promptFactoryMock = new Mock<IPromptFactory>(MockBehavior.Strict);
         _consoleClearMock = new Mock<IConsoleClear>(MockBehavior.Strict);
         _mainMenuMock = new Mock<MainMenu>(MockBehavior.Strict, _assemblyVersionProviderMock.Object);

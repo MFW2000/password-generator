@@ -63,8 +63,7 @@ public class GenerateCustomPasswordTests
         Assert.IsTrue(output.Contains("--- Constraints ---"));
         Assert.IsTrue(output.Contains("The password must comply with the following constraints:"));
         Assert.IsTrue(output.Contains(
-            $"- Length must be between {Constants.MinimumPasswordLength} and " +
-            $"{Constants.MaximumPasswordLength} characters"));
+            $"- Length must be between {Constants.MinimumPasswordLength} and {Constants.MaximumPasswordLength} characters"));
         Assert.IsTrue(output.Contains(
             "- The password must at least contain uppercases, lowercases, digits, or special characters"));
         Assert.IsTrue(output.Contains(
@@ -72,7 +71,7 @@ public class GenerateCustomPasswordTests
         Assert.IsTrue(output.Contains("--- Preferences ---"));
         Assert.IsTrue(output.Contains("Generating password..."));
         Assert.IsTrue(output.Contains($"New password: {password}"));
-        Assert.IsTrue(output.Contains("The password was saved to your clipboard."));
+        Assert.IsTrue(output.Contains("Your new password was saved to your clipboard."));
         Assert.IsTrue(output.Contains(CommonText.TooltipContinue));
 
         _passwordGeneratorServiceMock.Verify();
@@ -170,8 +169,6 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
             .Verifiable(Times.Once);
 
-        // TODO: Continue adding logger mocks.
-
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -187,8 +184,7 @@ public class GenerateCustomPasswordTests
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
         Assert.IsTrue(output.Contains(
-            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
-            $"and {Constants.MaximumPasswordLength}."));
+            $"The password length must be a number between {Constants.MinimumPasswordLength} and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -212,6 +208,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -227,11 +227,11 @@ public class GenerateCustomPasswordTests
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
         Assert.IsTrue(output.Contains(
-            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
-            $"and {Constants.MaximumPasswordLength}."));
+            $"The password length must be a number between {Constants.MinimumPasswordLength} and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -251,6 +251,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -266,11 +270,11 @@ public class GenerateCustomPasswordTests
         Assert.IsTrue(output.Contains(
             $"Enter the length of the password (default {Constants.PasswordLengthDefault}):"));
         Assert.IsTrue(output.Contains(
-            $"The password length must be a number between {Constants.MinimumPasswordLength} " +
-            $"and {Constants.MaximumPasswordLength}."));
+            $"The password length must be a number between {Constants.MinimumPasswordLength} and {Constants.MaximumPasswordLength}."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -566,6 +570,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -585,6 +593,7 @@ public class GenerateCustomPasswordTests
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -602,6 +611,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -621,6 +634,7 @@ public class GenerateCustomPasswordTests
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -641,6 +655,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -660,6 +678,7 @@ public class GenerateCustomPasswordTests
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -693,8 +712,7 @@ public class GenerateCustomPasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum number of special characters to be included " +
-            $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
+            $"Enter the minimum number of special characters to be included (default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -729,8 +747,7 @@ public class GenerateCustomPasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum number of special characters to be included " +
-            $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
+            $"Enter the minimum number of special characters to be included (default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -789,6 +806,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -802,14 +823,16 @@ public class GenerateCustomPasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            $"Enter the minimum number of special characters to be included " +
-            $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
+            $"Enter the minimum number of special characters to be included (default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
         Assert.IsTrue(output.Contains(
-            "The minimum number of special characters must be a non-negative number and the combined total of " +
-            "special characters and digits cannot exceed the password's length."));
+            """
+            The minimum number of special characters must be a non-negative number and the combined total of special characters and
+            digits cannot exceed the password's length.
+            """));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -827,6 +850,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -843,11 +870,14 @@ public class GenerateCustomPasswordTests
             $"Enter the minimum number of special characters to be included " +
             $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
         Assert.IsTrue(output.Contains(
-            "The minimum number of special characters must be a non-negative number and the combined total of " +
-            "special characters and digits cannot exceed the password's length."));
+            """
+            The minimum number of special characters must be a non-negative number and the combined total of special characters and
+            digits cannot exceed the password's length.
+            """));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -869,6 +899,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Once);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogInformation(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -885,11 +919,14 @@ public class GenerateCustomPasswordTests
             $"Enter the minimum number of special characters to be included " +
             $"(default {Constants.MinimumSpecialPasswordCharactersDefault}):"));
         Assert.IsTrue(output.Contains(
-            "The minimum number of special characters must be a non-negative number and the combined total of " +
-            "special characters and digits cannot exceed the password's length."));
+            """
+            The minimum number of special characters must be a non-negative number and the combined total of special characters and
+            digits cannot exceed the password's length.
+            """));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -1024,8 +1061,7 @@ public class GenerateCustomPasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            "Password options must include at least one of: uppercase letters, lowercase letters, digits, " +
-            "or special characters."));
+            "Password options must include at least one of: uppercase letters, lowercase letters, digits, or special characters."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
@@ -1045,6 +1081,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Never);
 
+        _consoleLoggerMock
+            .Setup(x => x.LogError(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -1062,6 +1102,7 @@ public class GenerateCustomPasswordTests
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -1079,6 +1120,10 @@ public class GenerateCustomPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Throws(new Exception());
 
+        _consoleLoggerMock
+            .Setup(x => x.LogError(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
         var consoleInput = new StringReader(input);
         var consoleOutput = new StringWriter();
 
@@ -1092,10 +1137,10 @@ public class GenerateCustomPasswordTests
         var output = consoleOutput.ToString();
 
         Assert.IsTrue(output.Contains(
-            "The password could not be saved to your clipboard, make sure you have the correct " +
-            "dependencies installed."));
+            "Your new password could not be saved to your clipboard, make sure you have the correct dependencies installed."));
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 }

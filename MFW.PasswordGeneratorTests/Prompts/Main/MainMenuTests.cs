@@ -51,8 +51,7 @@ public class MainMenuTests
         Assert.IsTrue(output.Contains("--- Main Menu ---"));
         Assert.IsTrue(output.Contains($"1. {CommonText.GenerateDefaultPasswordTitle}"));
         Assert.IsTrue(output.Contains($"2. {CommonText.GenerateCustomPasswordTitle}"));
-        Assert.IsTrue(output.Contains($"3. {CommonText.HashPasswordTitle}"));
-        Assert.IsTrue(output.Contains("4. Exit"));
+        Assert.IsTrue(output.Contains("3. Exit"));
         Assert.IsTrue(output.Contains(CommonText.TooltipOption));
 
         _assemblyVersionProviderMock.Verify();
@@ -88,7 +87,7 @@ public class MainMenuTests
     public void DisplayMainPrompt_WithExitInput_ShouldReturnNull()
     {
         // Arrange
-        const string input = "4\n";
+        const string input = "3\n";
 
         var version = new Version(1, 2, 3);
 
@@ -135,7 +134,7 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("Please select a valid menu option number."));
+        Assert.IsTrue(output.Contains("Please select a valid menu option."));
         Assert.IsNotNull(result);
 
         _assemblyVersionProviderMock.Verify();
@@ -166,7 +165,7 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.IsTrue(output.Contains("Please select a valid menu option number."));
+        Assert.IsTrue(output.Contains("Please select a valid menu option."));
         Assert.IsNotNull(result);
 
         _assemblyVersionProviderMock.Verify();
