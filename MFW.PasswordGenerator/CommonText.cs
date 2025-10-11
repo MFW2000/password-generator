@@ -6,7 +6,7 @@
 public static class CommonText
 {
     public const string AppTitle = "Password Generator";
-    public const string AppSubTitle = "Generate and/or hash passwords.";
+    public const string AppSubTitle = "Generate secure and customizable passwords.";
     public const string GenerateDefaultPasswordTitle = "Generate Default Password";
     public const string GenerateCustomPasswordTitle = "Generate Custom Password";
 
