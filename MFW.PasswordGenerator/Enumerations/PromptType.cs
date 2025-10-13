@@ -7,6 +7,5 @@ public enum PromptType
 {
     MainMenu,
     GenerateDefaultPassword,
-    GenerateCustomPassword,
-    HashPassword
+    GenerateCustomPassword
 }

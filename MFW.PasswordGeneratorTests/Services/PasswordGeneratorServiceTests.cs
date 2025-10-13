@@ -1,11 +1,12 @@
-﻿using MFW.PasswordGenerator;
+﻿using JetBrains.Annotations;
+using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Exceptions;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services;
 
 namespace MFW.PasswordGeneratorTests.Services;
 
-[TestClass]
+[TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class PasswordGeneratorServiceTests
 {
     private PasswordGeneratorService _sut = null!;
@@ -91,7 +92,7 @@ public class PasswordGeneratorServiceTests
         // Assert
         var digitCharCount = result.Count(char.IsDigit);
 
-        Assert.IsTrue(digitCharCount >= digits);
+        Assert.IsGreaterThanOrEqualTo(digits, digitCharCount);
     }
 
     [TestMethod]
@@ -108,7 +109,7 @@ public class PasswordGeneratorServiceTests
         // Assert
         var specialCharCount = result.Count(c => Constants.Special.Contains(c));
 
-        Assert.IsTrue(specialCharCount >= specials);
+        Assert.IsGreaterThanOrEqualTo(specials, specialCharCount);
     }
 
     [TestMethod]

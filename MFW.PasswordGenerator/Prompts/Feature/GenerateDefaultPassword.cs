@@ -1,4 +1,5 @@
 using MFW.PasswordGenerator.Enumerations;
+using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
 using TextCopy;
@@ -8,7 +9,11 @@ namespace MFW.PasswordGenerator.Prompts.Feature;
 /// <summary>
 /// Responsible for assisting the user in quickly generating a new password with default secure settings.
 /// </summary>
-public class GenerateDefaultPassword(IPasswordGeneratorService passwordGeneratorService, IClipboard clipboard) : Prompt
+public class GenerateDefaultPassword(
+    IPasswordGeneratorService passwordGeneratorService,
+    IClipboard clipboard,
+    IConsoleLogger logger)
+    : Prompt
 {
     /// <inheritdoc/>
     public override PromptType? DisplayMainPrompt()
@@ -31,8 +36,10 @@ public class GenerateDefaultPassword(IPasswordGeneratorService passwordGenerator
         {
             password = passwordGeneratorService.Generate(options);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            logger.LogError($"Generating default password failed: {exception.Message}");
+
             Console.WriteLine("An error occurred while generating the password.");
 
             ContinuePrompt();
@@ -48,13 +55,14 @@ public class GenerateDefaultPassword(IPasswordGeneratorService passwordGenerator
         {
             clipboard.SetText(password);
 
-            Console.WriteLine("The password was saved to your clipboard.");
+            Console.WriteLine("Your new password was saved to your clipboard.");
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            logger.LogError($"Saving password to clipboard failed: {exception.Message}");
+
             Console.WriteLine(
-                "The password could not be saved to your clipboard, make sure you have the correct " +
-                "dependencies installed.");
+                "Your new password could not be saved to your clipboard, make sure you have the correct dependencies installed.");
         }
 
         Console.WriteLine();

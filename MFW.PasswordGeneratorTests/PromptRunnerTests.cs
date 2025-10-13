@@ -1,4 +1,5 @@
-﻿using MFW.PasswordGenerator;
+﻿using JetBrains.Annotations;
+using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Factories.Interfaces;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
@@ -8,7 +9,7 @@ using Moq;
 
 namespace MFW.PasswordGeneratorTests;
 
-[TestClass]
+[TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class PromptRunnerTests
 {
     private Mock<IAssemblyVersionProvider> _assemblyVersionProviderMock = null!;
@@ -21,7 +22,7 @@ public class PromptRunnerTests
     [TestInitialize]
     public void Setup()
     {
-        _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>();
+        _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>(MockBehavior.Strict);
         _promptFactoryMock = new Mock<IPromptFactory>(MockBehavior.Strict);
         _consoleClearMock = new Mock<IConsoleClear>(MockBehavior.Strict);
         _mainMenuMock = new Mock<MainMenu>(MockBehavior.Strict, _assemblyVersionProviderMock.Object);

@@ -5,6 +5,8 @@ namespace MFW.PasswordGenerator;
 /// </summary>
 public static class Constants
 {
+    public const string DefaultLogFile = "logger.log";
+
     public const string Uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     public const string Lowercase = "abcdefghijklmnopqrstuvwxyz";
     public const string Digits = "0123456789";
