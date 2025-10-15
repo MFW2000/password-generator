@@ -1,5 +1,6 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Helpers;
+using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Providers.Interfaces;
 
 namespace MFW.PasswordGenerator.Prompts.Main;
@@ -7,13 +8,12 @@ namespace MFW.PasswordGenerator.Prompts.Main;
 /// <summary>
 /// Responsible for guiding the user to all application features.
 /// </summary>
-/// <param name="assemblyVersionProvider">Provides the assembly version of the application.</param>
-public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
+public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider, IConsoleLogger logger) : Prompt
 {
     /// <inheritdoc/>
     public override PromptType? DisplayMainPrompt()
     {
-        Console.WriteLine($"=== {CommonText.AppTitle} v{GetAssemblyVersionString()} ===");
+        Console.WriteLine($"=== {CommonText.AppTitle}{GetAssemblyVersion()} ===");
         Console.WriteLine(CommonText.AppSubTitle);
         Console.WriteLine();
         Console.WriteLine("--- Main Menu ---");
@@ -44,11 +44,21 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider) : Prompt
     }
 
     /// <summary>
-    /// Retrieves the application's assembly version as a formatted string.
+    /// Retrieves the application's assembly version formatted to be shown to the user. The version itself will be
+    /// shown in the format of "major.minor.build".
     /// </summary>
-    /// <returns>A string representing the assembly version in the format "major.minor.build".</returns>
-    private string GetAssemblyVersionString()
+    /// <returns>The formatted application version or an empty string if the version could not be retrieved.</returns>
+    private string GetAssemblyVersion()
     {
-        return assemblyVersionProvider.GetVersion().ToString(3);
+        var version = assemblyVersionProvider.GetVersion();
+
+        if (version is not null)
+        {
+            return $" v{version.ToString(3)}";
+        }
+
+        logger.LogError("Unable to retrieve the application version.");
+
+        return string.Empty;
     }
 }

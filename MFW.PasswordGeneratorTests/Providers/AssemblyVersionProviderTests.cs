@@ -45,7 +45,7 @@ public class AssemblyVersionProviderTests
     }
 
     [TestMethod]
-    public void GetVersion_WithNoFoundVersion_ReturnsDefaultVersion()
+    public void GetVersion_WithVersionNotFound_ReturnsNull()
     {
         // Arrange
         var assemblyName = new AssemblyName
@@ -62,7 +62,7 @@ public class AssemblyVersionProviderTests
         var result = _sut.GetVersion();
 
         // Assert
-        Assert.AreEqual(new Version(0,0,0), result);
+        Assert.IsNull(result);
 
         _assemblyMock.Verify();
     }
