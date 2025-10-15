@@ -44,8 +44,8 @@ public class MainMenu(IAssemblyVersionProvider assemblyVersionProvider, IConsole
     }
 
     /// <summary>
-    /// Retrieves the application's assembly version in the format of "major.minor.build". The version will not be
-    /// shown if it could not be retrieved.
+    /// Retrieves the application's assembly version formatted to be shown to the user. The version itself will be
+    /// shown in the format of "major.minor.build".
     /// </summary>
     /// <returns>The formatted application version or an empty string if the version could not be retrieved.</returns>
     private string GetAssemblyVersion()
