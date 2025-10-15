@@ -30,7 +30,7 @@ public class MainMenuTests
     {
         // Arrange
         const string input = "3\n";
-        const string expectedVersionString = " v1.2.3";
+        const string expectedVersionFormat = " v1.2.3";
 
         var version = new Version(1, 2, 3);
 
@@ -51,7 +51,7 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.Contains($"=== {CommonText.AppTitle}{expectedVersionString} ===", output);
+        Assert.Contains($"=== {CommonText.AppTitle}{expectedVersionFormat} ===", output);
         Assert.Contains(CommonText.AppSubTitle, output);
         Assert.Contains("--- Main Menu ---", output);
         Assert.Contains($"1. {CommonText.GenerateDefaultPasswordTitle}", output);
