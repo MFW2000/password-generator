@@ -14,7 +14,7 @@ public class GenerateDefaultPasswordTests
 {
     private Mock<IPasswordGeneratorService> _passwordGeneratorServiceMock = null!;
     private Mock<IClipboard> _clipboardMock = null!;
-    private Mock<IConsoleLogger> _consoleLogger = null!;
+    private Mock<IConsoleLogger> _consoleLoggerMock = null!;
 
     private GenerateDefaultPassword _sut = null!;
 
@@ -23,12 +23,12 @@ public class GenerateDefaultPasswordTests
     {
         _passwordGeneratorServiceMock = new Mock<IPasswordGeneratorService>(MockBehavior.Strict);
         _clipboardMock = new Mock<IClipboard>(MockBehavior.Strict);
-        _consoleLogger = new Mock<IConsoleLogger>(MockBehavior.Strict);
+        _consoleLoggerMock = new Mock<IConsoleLogger>(MockBehavior.Strict);
 
         _sut = new GenerateDefaultPassword(
             _passwordGeneratorServiceMock.Object,
             _clipboardMock.Object,
-            _consoleLogger.Object);
+            _consoleLoggerMock.Object);
     }
 
     [TestMethod]
@@ -120,7 +120,7 @@ public class GenerateDefaultPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Verifiable(Times.Never);
 
-        _consoleLogger
+        _consoleLoggerMock
             .Setup(x => x.LogError(It.IsAny<string>(), It.IsAny<string>()))
             .Verifiable(Times.Once);
 
@@ -141,7 +141,7 @@ public class GenerateDefaultPasswordTests
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
-        _consoleLogger.Verify();
+        _consoleLoggerMock.Verify();
     }
 
     [TestMethod]
@@ -159,7 +159,7 @@ public class GenerateDefaultPasswordTests
             .Setup(x => x.SetText(It.IsAny<string>()))
             .Throws(new Exception());
 
-        _consoleLogger
+        _consoleLoggerMock
             .Setup(x => x.LogError(It.IsAny<string>(), It.IsAny<string>()))
             .Verifiable(Times.Once);
 
@@ -181,6 +181,6 @@ public class GenerateDefaultPasswordTests
 
         _passwordGeneratorServiceMock.Verify();
         _clipboardMock.Verify();
-        _consoleLogger.Verify();
+        _consoleLoggerMock.Verify();
     }
 }

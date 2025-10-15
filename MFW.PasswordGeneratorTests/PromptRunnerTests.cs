@@ -12,9 +12,10 @@ namespace MFW.PasswordGeneratorTests;
 [TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class PromptRunnerTests
 {
-    private Mock<IAssemblyVersionProvider> _assemblyVersionProviderMock = null!;
     private Mock<IPromptFactory> _promptFactoryMock = null!;
     private Mock<IConsoleClear> _consoleClearMock = null!;
+    private Mock<IAssemblyVersionProvider> _assemblyVersionProviderMock = null!;
+    private Mock<IConsoleLogger> _consoleLoggerMock = null!;
     private Mock<MainMenu> _mainMenuMock = null!;
 
     private PromptRunner _sut = null!;
@@ -22,10 +23,14 @@ public class PromptRunnerTests
     [TestInitialize]
     public void Setup()
     {
-        _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>(MockBehavior.Strict);
         _promptFactoryMock = new Mock<IPromptFactory>(MockBehavior.Strict);
         _consoleClearMock = new Mock<IConsoleClear>(MockBehavior.Strict);
-        _mainMenuMock = new Mock<MainMenu>(MockBehavior.Strict, _assemblyVersionProviderMock.Object);
+        _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>(MockBehavior.Strict);
+        _consoleLoggerMock = new Mock<IConsoleLogger>(MockBehavior.Strict);
+        _mainMenuMock = new Mock<MainMenu>(
+            MockBehavior.Strict,
+            _assemblyVersionProviderMock.Object,
+            _consoleLoggerMock.Object);
 
         _sut = new PromptRunner(_promptFactoryMock.Object, _consoleClearMock.Object);
     }

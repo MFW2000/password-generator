@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Enumerations;
+using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Prompts.Main;
 using MFW.PasswordGenerator.Providers.Interfaces;
 using Moq;
@@ -11,6 +12,7 @@ namespace MFW.PasswordGeneratorTests.Prompts.Main;
 public class MainMenuTests
 {
     private Mock<IAssemblyVersionProvider> _assemblyVersionProviderMock = null!;
+    private Mock<IConsoleLogger> _consoleLoggerMock = null!;
 
     private MainMenu _sut = null!;
 
@@ -18,8 +20,9 @@ public class MainMenuTests
     public void Setup()
     {
         _assemblyVersionProviderMock = new Mock<IAssemblyVersionProvider>(MockBehavior.Strict);
+        _consoleLoggerMock = new Mock<IConsoleLogger>(MockBehavior.Strict);
 
-        _sut = new MainMenu(_assemblyVersionProviderMock.Object);
+        _sut = new MainMenu(_assemblyVersionProviderMock.Object, _consoleLoggerMock.Object);
     }
 
     [TestMethod]
@@ -27,6 +30,7 @@ public class MainMenuTests
     {
         // Arrange
         const string input = "3\n";
+        const string expectedVersionString = " v1.2.3";
 
         var version = new Version(1, 2, 3);
 
@@ -47,7 +51,7 @@ public class MainMenuTests
         // Assert
         var output = consoleOutput.ToString();
 
-        Assert.Contains($"=== {CommonText.AppTitle} v{version.ToString(3)}", output);
+        Assert.Contains($"=== {CommonText.AppTitle}{expectedVersionString} ===", output);
         Assert.Contains(CommonText.AppSubTitle, output);
         Assert.Contains("--- Main Menu ---", output);
         Assert.Contains($"1. {CommonText.GenerateDefaultPasswordTitle}", output);
@@ -170,5 +174,38 @@ public class MainMenuTests
         Assert.IsNotNull(result);
 
         _assemblyVersionProviderMock.Verify();
+    }
+
+    [TestMethod]
+    public void DisplayMainPrompt_WithNullVersion_ShouldNotOutputVersion()
+    {
+        // Arrange
+        const string input = "3\n";
+
+        _assemblyVersionProviderMock
+            .Setup(x => x.GetVersion())
+            .Returns((Version?)null)
+            .Verifiable(Times.Once);
+
+        _consoleLoggerMock
+            .Setup(x => x.LogError(It.IsAny<string>(), It.IsAny<string>()))
+            .Verifiable(Times.Once);
+
+        var consoleInput = new StringReader(input);
+        var consoleOutput = new StringWriter();
+
+        Console.SetIn(consoleInput);
+        Console.SetOut(consoleOutput);
+
+        // Act
+        _sut.DisplayMainPrompt();
+
+        // Assert
+        var output = consoleOutput.ToString();
+
+        Assert.Contains($"=== {CommonText.AppTitle} ===", output);
+
+        _assemblyVersionProviderMock.Verify();
+        _consoleLoggerMock.Verify();
     }
 }
