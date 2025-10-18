@@ -1,4 +1,4 @@
-﻿using MFW.PasswordGenerator.Prompts;
+﻿using MFW.PasswordGenerator.Presentation;
 
 namespace MFW.PasswordGenerator.Factories.Interfaces;
 

@@ -2,11 +2,11 @@
 using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
-using MFW.PasswordGenerator.Prompts.Main;
+using MFW.PasswordGenerator.Presentation.Main;
 using MFW.PasswordGenerator.Providers.Interfaces;
 using Moq;
 
-namespace MFW.PasswordGeneratorTests.Prompts.Main;
+namespace MFW.PasswordGeneratorTests.Presentation.Main;
 
 [TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class MainMenuTests

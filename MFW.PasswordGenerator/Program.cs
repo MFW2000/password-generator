@@ -2,8 +2,8 @@
 using MFW.PasswordGenerator.Factories.Interfaces;
 using MFW.PasswordGenerator.Infrastructure;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
-using MFW.PasswordGenerator.Prompts.Feature;
-using MFW.PasswordGenerator.Prompts.Main;
+using MFW.PasswordGenerator.Presentation.Feature;
+using MFW.PasswordGenerator.Presentation.Main;
 using MFW.PasswordGenerator.Providers;
 using MFW.PasswordGenerator.Providers.Interfaces;
 using MFW.PasswordGenerator.Services;
@@ -24,7 +24,7 @@ public static class Program
     public static void Main()
     {
         var serviceProvider = ConfigureServices();
-        var runner = serviceProvider.GetRequiredService<PromptRunner>();
+        var runner = serviceProvider.GetRequiredService<Runner>();
 
         runner.Run();
     }
@@ -50,7 +50,7 @@ public static class Program
         services.AddTransient<IPasswordGeneratorService, PasswordGeneratorService>();
 
         // Register runner service to manage application loop.
-        services.AddTransient<PromptRunner>();
+        services.AddTransient<Runner>();
 
         // Register prompts.
         services.AddTransient<MainMenu>();

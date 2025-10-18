@@ -1,5 +1,5 @@
 ﻿using MFW.PasswordGenerator.Factories.Interfaces;
-using MFW.PasswordGenerator.Prompts;
+using MFW.PasswordGenerator.Presentation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MFW.PasswordGenerator.Factories;

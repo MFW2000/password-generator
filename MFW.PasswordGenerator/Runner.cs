@@ -1,9 +1,9 @@
 ﻿using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Factories.Interfaces;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
-using MFW.PasswordGenerator.Prompts;
-using MFW.PasswordGenerator.Prompts.Feature;
-using MFW.PasswordGenerator.Prompts.Main;
+using MFW.PasswordGenerator.Presentation;
+using MFW.PasswordGenerator.Presentation.Feature;
+using MFW.PasswordGenerator.Presentation.Main;
 
 namespace MFW.PasswordGenerator;
 
@@ -12,7 +12,7 @@ namespace MFW.PasswordGenerator;
 /// </summary>
 /// <param name="promptFactory">The factory used to create new instances of prompts.</param>
 /// <param name="consoleClear">Provides console clearing functionality that can be tested.</param>
-public class PromptRunner(IPromptFactory promptFactory, IConsoleClear consoleClear)
+public class Runner(IPromptFactory promptFactory, IConsoleClear consoleClear)
 {
     /// <summary>
     /// Executes the main loop of the application.
