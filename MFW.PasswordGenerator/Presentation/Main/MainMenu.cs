@@ -3,7 +3,7 @@ using MFW.PasswordGenerator.Helpers;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
 using MFW.PasswordGenerator.Providers.Interfaces;
 
-namespace MFW.PasswordGenerator.Prompts.Main;
+namespace MFW.PasswordGenerator.Presentation.Main;
 
 /// <summary>
 /// Responsible for guiding the user to all application features.

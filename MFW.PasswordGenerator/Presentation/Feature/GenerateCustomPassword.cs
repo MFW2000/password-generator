@@ -5,7 +5,7 @@ using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
 using TextCopy;
 
-namespace MFW.PasswordGenerator.Prompts.Feature;
+namespace MFW.PasswordGenerator.Presentation.Feature;
 
 /// <summary>
 /// Responsible for assisting the user in generating a new customized password.

@@ -3,14 +3,14 @@ using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Enumerations;
 using MFW.PasswordGenerator.Factories.Interfaces;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
-using MFW.PasswordGenerator.Prompts.Main;
+using MFW.PasswordGenerator.Presentation.Main;
 using MFW.PasswordGenerator.Providers.Interfaces;
 using Moq;
 
 namespace MFW.PasswordGeneratorTests;
 
 [TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
-public class PromptRunnerTests
+public class RunnerTests
 {
     private Mock<IPromptFactory> _promptFactoryMock = null!;
     private Mock<IConsoleClear> _consoleClearMock = null!;
@@ -18,7 +18,7 @@ public class PromptRunnerTests
     private Mock<IConsoleLogger> _consoleLoggerMock = null!;
     private Mock<MainMenu> _mainMenuMock = null!;
 
-    private PromptRunner _sut = null!;
+    private Runner _sut = null!;
 
     [TestInitialize]
     public void Setup()
@@ -32,7 +32,7 @@ public class PromptRunnerTests
             _assemblyVersionProviderMock.Object,
             _consoleLoggerMock.Object);
 
-        _sut = new PromptRunner(_promptFactoryMock.Object, _consoleClearMock.Object);
+        _sut = new Runner(_promptFactoryMock.Object, _consoleClearMock.Object);
     }
 
     [TestMethod]

@@ -1,13 +1,13 @@
 using JetBrains.Annotations;
 using MFW.PasswordGenerator;
 using MFW.PasswordGenerator.Infrastructure.Interfaces;
-using MFW.PasswordGenerator.Prompts.Feature;
+using MFW.PasswordGenerator.Presentation.Feature;
 using MFW.PasswordGenerator.Records;
 using MFW.PasswordGenerator.Services.Interfaces;
 using Moq;
 using TextCopy;
 
-namespace MFW.PasswordGeneratorTests.Prompts.Feature;
+namespace MFW.PasswordGeneratorTests.Presentation.Feature;
 
 [TestClass, UsedImplicitly(ImplicitUseTargetFlags.Members)]
 public class GenerateDefaultPasswordTests
