@@ -26,12 +26,12 @@ public abstract class Prompt
     }
 
     /// <summary>
-    /// Prompts the user for a yes/no response with an optional question and default answer.
+    /// Prompts the user for a yes/no response with optional prompt text and default value.
     /// </summary>
     /// <param name="promptText">Optional prompt text to be displayed.</param>
-    /// <param name="defaultAnswer">Optional default answer to be returned on empty input.</param>
+    /// <param name="defaultValue">Optional default value to be returned on empty input.</param>
     /// <returns>True for "yes" or "y", false for "no" or "n" (case-insensitive).</returns>
-    protected static bool PromptYesNo(string? promptText = null, bool? defaultAnswer = null)
+    protected static bool PromptYesNo(string? promptText = null, bool? defaultValue = null)
     {
         if (!string.IsNullOrWhiteSpace(promptText))
         {
@@ -44,9 +44,9 @@ public abstract class Prompt
 
             var input = PromptHelper.ReadString(true);
 
-            if (string.IsNullOrEmpty(input) && defaultAnswer.HasValue)
+            if (string.IsNullOrEmpty(input) && defaultValue.HasValue)
             {
-                return defaultAnswer.Value;
+                return defaultValue.Value;
             }
 
             switch (input.ToLower())
